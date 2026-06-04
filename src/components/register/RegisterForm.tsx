@@ -6,11 +6,35 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useFormik } from "formik";
+import type { RegisterTypes } from "../../types";
 
 function RegisterForm() {
+  const formik = useFormik<RegisterTypes>({
+    initialValues: {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phone: "",
+    },
+    onSubmit: async (values) => {
+      const response = await fetch("https://api.qrsofra.com/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+
+      console.log(data);
+    },
+  });
   return (
     <>
-      <Stack sx={{ py: "96px" }}>
+      <Stack sx={{ py: "96px", ml: "480px" }}>
         <Box
           sx={{
             marginBottom: "40px",
@@ -22,7 +46,7 @@ function RegisterForm() {
           <Typography
             variant="h5"
             sx={{
-              fontSize: "20x",
+              fontSize: "20px",
               fontWeight: 700,
               lineHeight: "1.5",
               fontFamily: "Nunito Sans",
@@ -54,29 +78,65 @@ function RegisterForm() {
             </button>
           </Typography>
         </Box>
-        <form style={{ width: "420px" }}>
+        <form
+          style={{ width: "420px" }}
+          onSubmit={(e: React.FormEvent) => {
+            e.preventDefault();
+            formik.handleSubmit();
+          }}
+        >
           <Stack sx={{ gap: "24px" }}>
             <Stack sx={{ flexDirection: "row", gap: "16px" }}>
-              <TextField label="İsim" variant="outlined" type="text" />
-              <TextField label="Soyisim" variant="outlined" type="text" />
+              <TextField
+                name="name"
+                label="İsim"
+                variant="outlined"
+                type="text"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+              />
+              <TextField
+                name="surname"
+                label="Soyisim"
+                variant="outlined"
+                type="text"
+                value={formik.values.surname}
+                onChange={formik.handleChange}
+              />
             </Stack>
-            <TextField label="Email adresi" variant="outlined" type="text" />
             <TextField
+              name="email"
+              label="Email adresi"
+              variant="outlined"
+              type="text"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+            />
+            <TextField
+              name="phone"
               label="Telefon Numarası"
               placeholder="(555) 555 55 55"
               variant="outlined"
               type="tel"
+              value={formik.values.phone}
+              onChange={formik.handleChange}
             />
             <TextField
+              name="password"
               label="Şifre"
               placeholder="6+ karakter"
               variant="outlined"
               type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
             />
             <TextField
+              name="confirmPassword"
               label="Şifreyi tekrar girin"
               variant="outlined"
               type="password"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
             />
             <Box sx={{ gap: "4px" }}>
               <Stack sx={{ flexDirection: "row", alignItems: "center" }}>

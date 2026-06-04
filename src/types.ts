@@ -1,0 +1,8 @@
+export type RegisterTypes = {
+  name: string;
+  surname: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+};
