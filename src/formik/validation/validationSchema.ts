@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-const validationSchema = Yup.object({
+const registerValidationSchema = Yup.object({
   firstName: Yup.string().required("İsim alanı zorunludur!"),
   lastName: Yup.string().required("Soyisim alanı zorunludur!"),
   email: Yup.string()
@@ -20,5 +20,12 @@ const validationSchema = Yup.object({
       "Hizmet Şartlarını ve Gizlilik Politikasını kabul etmelisiniz.",
     ),
 });
-
-export default validationSchema;
+const loginValidationSchema = Yup.object({
+  email: Yup.string()
+    .email("Email geçerli bir email adresi olmalıdır!")
+    .required("Email alanı zorunludur!"),
+  password: Yup.string()
+    .min(6, "Şifre en az 6 karakter olmalıdır!")
+    .required("Şifre alanı zorunludur!"),
+});
+export { registerValidationSchema, loginValidationSchema };

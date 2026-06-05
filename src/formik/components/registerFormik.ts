@@ -1,7 +1,7 @@
 import type { RegisterTypes } from "../../types";
 import { useFormik, type FormikValues } from "formik";
 import { RegisterApi } from "../../api/RegisterApi";
-import validationSchema from "../validation/validationSchema";
+import { registerValidationSchema } from "../validation/validationSchema";
 export const useRegisterFormik = () => {
   const RegisterFormik: FormikValues = useFormik<RegisterTypes>({
     initialValues: {
@@ -15,7 +15,7 @@ export const useRegisterFormik = () => {
       marketingConsent: false,
       policiesAccepted: false,
     },
-    validationSchema: validationSchema,
+    validationSchema: registerValidationSchema,
     onSubmit: async (values) => {
       try {
         const data = await RegisterApi(values);

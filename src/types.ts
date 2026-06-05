@@ -9,3 +9,8 @@ export type RegisterTypes = {
   marketingConsent: boolean;
   policiesAccepted: boolean;
 };
+
+export type LoginTypes = {
+  email: string;
+  password: string;
+};
