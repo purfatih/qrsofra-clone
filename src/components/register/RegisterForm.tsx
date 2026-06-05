@@ -1,40 +1,11 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useFormik } from "formik";
-import type { RegisterTypes } from "../../types";
-
+import { Box, Button, Checkbox, Stack, Typography } from "@mui/material";
+import RegisterFormInput from "../RegisterFormInput";
+import { useRegisterFormik } from "../../formik/registerFormik";
 function RegisterForm() {
-  const formik = useFormik<RegisterTypes>({
-    initialValues: {
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      phone: "",
-    },
-    onSubmit: async (values) => {
-      const response = await fetch("https://api.qrsofra.com/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-      const data = await response.json();
-
-      console.log(data);
-    },
-  });
+  const formik = useRegisterFormik();
   return (
     <>
-      <Stack sx={{ py: "96px", ml: "480px" }}>
+      <Stack sx={{ mx: "auto", pb: "48px" }}>
         <Box
           sx={{
             marginBottom: "40px",
@@ -79,7 +50,7 @@ function RegisterForm() {
           </Typography>
         </Box>
         <form
-          style={{ width: "420px" }}
+          style={{ maxWidth: "480px" }}
           onSubmit={(e: React.FormEvent) => {
             e.preventDefault();
             formik.handleSubmit();
@@ -87,24 +58,26 @@ function RegisterForm() {
         >
           <Stack sx={{ gap: "24px" }}>
             <Stack sx={{ flexDirection: "row", gap: "16px" }}>
-              <TextField
-                name="name"
+              <RegisterFormInput
+                name="firstName"
                 label="İsim"
                 variant="outlined"
                 type="text"
-                value={formik.values.name}
+                fullWidth
+                value={formik.values.firstName}
                 onChange={formik.handleChange}
               />
-              <TextField
-                name="surname"
+              <RegisterFormInput
+                name="lastName"
                 label="Soyisim"
                 variant="outlined"
                 type="text"
-                value={formik.values.surname}
+                fullWidth
+                value={formik.values.lastName}
                 onChange={formik.handleChange}
               />
             </Stack>
-            <TextField
+            <RegisterFormInput
               name="email"
               label="Email adresi"
               variant="outlined"
@@ -112,16 +85,16 @@ function RegisterForm() {
               value={formik.values.email}
               onChange={formik.handleChange}
             />
-            <TextField
-              name="phone"
+            <RegisterFormInput
+              name="phoneNumber"
               label="Telefon Numarası"
               placeholder="(555) 555 55 55"
               variant="outlined"
               type="tel"
-              value={formik.values.phone}
+              value={formik.values.phoneNumber}
               onChange={formik.handleChange}
             />
-            <TextField
+            <RegisterFormInput
               name="password"
               label="Şifre"
               placeholder="6+ karakter"
@@ -130,7 +103,7 @@ function RegisterForm() {
               value={formik.values.password}
               onChange={formik.handleChange}
             />
-            <TextField
+            <RegisterFormInput
               name="confirmPassword"
               label="Şifreyi tekrar girin"
               variant="outlined"
@@ -140,7 +113,10 @@ function RegisterForm() {
             />
             <Box sx={{ gap: "4px" }}>
               <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-                <Checkbox />
+                <Checkbox
+                  checked={formik.values.analyticsConsent}
+                  onChange={formik.handleChange}
+                />
                 <Typography
                   sx={{
                     fontSize: "14px",
@@ -157,7 +133,10 @@ function RegisterForm() {
                 </Typography>
               </Stack>{" "}
               <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-                <Checkbox />
+                <Checkbox
+                  checked={formik.values.policiesAccepted}
+                  onChange={formik.handleChange}
+                />
                 <Typography
                   sx={{
                     fontSize: "14px",
@@ -176,7 +155,10 @@ function RegisterForm() {
                 </Typography>
               </Stack>
               <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-                <Checkbox />
+                <Checkbox
+                  checked={formik.values.marketingConsent}
+                  onChange={formik.handleChange}
+                />
                 <Typography
                   sx={{
                     fontSize: "14px",

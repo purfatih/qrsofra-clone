@@ -1,8 +1,11 @@
 export type RegisterTypes = {
-  name: string;
-  surname: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   password: string;
   confirmPassword: string;
+  analyticsConsent: boolean;
+  marketingConsent: boolean;
+  policiesAccepted: boolean;
 };
