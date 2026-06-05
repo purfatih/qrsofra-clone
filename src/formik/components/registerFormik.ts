@@ -1,8 +1,9 @@
-import type { RegisterTypes } from "../types";
-import { useFormik } from "formik";
-import { RegisterApi } from "../api/RegisterApi";
+import type { RegisterTypes } from "../../types";
+import { useFormik, type FormikValues } from "formik";
+import { RegisterApi } from "../../api/RegisterApi";
+import validationSchema from "../validation/validationSchema";
 export const useRegisterFormik = () => {
-  const RegisterFormik = useFormik<RegisterTypes>({
+  const RegisterFormik: FormikValues = useFormik<RegisterTypes>({
     initialValues: {
       firstName: "",
       lastName: "",
@@ -10,10 +11,11 @@ export const useRegisterFormik = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
-      analyticsConsent: true,
-      marketingConsent: true,
-      policiesAccepted: true,
+      analyticsConsent: false,
+      marketingConsent: false,
+      policiesAccepted: false,
     },
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
         const data = await RegisterApi(values);

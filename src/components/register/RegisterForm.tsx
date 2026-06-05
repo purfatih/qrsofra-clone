@@ -1,6 +1,8 @@
-import { Box, Button, Checkbox, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import RegisterFormInput from "../RegisterFormInput";
-import { useRegisterFormik } from "../../formik/registerFormik";
+import { useRegisterFormik } from "../../formik/components/registerFormik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import validationSchema from "../../formik/validation/validationSchema";
 function RegisterForm() {
   const formik = useRegisterFormik();
   return (
@@ -49,152 +51,216 @@ function RegisterForm() {
             </button>
           </Typography>
         </Box>
-        <form
-          style={{ maxWidth: "480px" }}
-          onSubmit={(e: React.FormEvent) => {
-            e.preventDefault();
-            formik.handleSubmit();
-          }}
+        <Formik
+          initialValues={formik.initialValues}
+          validationSchema={validationSchema}
+          onSubmit={formik.onSubmit}
         >
-          <Stack sx={{ gap: "24px" }}>
-            <Stack sx={{ flexDirection: "row", gap: "16px" }}>
+          <Form style={{ maxWidth: "480px" }} onSubmit={formik.handleSubmit}>
+            <Stack sx={{ gap: "24px" }}>
+              <Stack sx={{ flexDirection: "row", gap: "16px" }}>
+                <RegisterFormInput
+                  name="firstName"
+                  label="İsim"
+                  variant="outlined"
+                  type="text"
+                  fullWidth
+                  value={formik.values.firstName}
+                  onChange={formik.handleChange}
+                  error={formik.touched?.firstName && !!formik.errors.firstName}
+                  helperText={
+                    formik.touched?.firstName && formik.errors.firstName
+                  }
+                />
+                <RegisterFormInput
+                  name="lastName"
+                  label="Soyisim"
+                  variant="outlined"
+                  type="text"
+                  fullWidth
+                  value={formik.values.lastName}
+                  onChange={formik.handleChange}
+                  error={formik.touched?.lastName && !!formik.errors.lastName}
+                  helperText={
+                    formik.touched?.lastName && formik.errors.lastName
+                  }
+                />
+              </Stack>
               <RegisterFormInput
-                name="firstName"
-                label="İsim"
+                name="email"
+                label="Email adresi"
                 variant="outlined"
                 type="text"
-                fullWidth
-                value={formik.values.firstName}
+                value={formik.values.email}
                 onChange={formik.handleChange}
+                error={formik.touched?.email && !!formik.errors.email}
+                helperText={formik.touched?.email && formik.errors.email}
               />
               <RegisterFormInput
-                name="lastName"
-                label="Soyisim"
+                name="phoneNumber"
+                label="Telefon Numarası"
+                placeholder="(555) 555 55 55"
                 variant="outlined"
-                type="text"
-                fullWidth
-                value={formik.values.lastName}
+                type="tel"
+                value={formik.values.phoneNumber}
                 onChange={formik.handleChange}
+                error={
+                  formik.touched?.phoneNumber && !!formik.errors.phoneNumber
+                }
+                helperText={
+                  formik.touched?.phoneNumber && formik.errors.phoneNumber
+                }
               />
+              <RegisterFormInput
+                name="password"
+                label="Şifre"
+                placeholder="6+ karakter"
+                variant="outlined"
+                type="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={formik.touched?.password && !!formik.errors.password}
+                helperText={formik.touched?.password && formik.errors.password}
+              />
+              <RegisterFormInput
+                name="confirmPassword"
+                label="Şifreyi tekrar girin"
+                variant="outlined"
+                type="password"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched?.confirmPassword &&
+                  !!formik.errors.confirmPassword
+                }
+                helperText={
+                  formik.touched?.confirmPassword &&
+                  formik.errors.confirmPassword
+                }
+              />
+              <Box sx={{ gap: "4px" }}>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <Field
+                    name="analyticsConsent"
+                    type="checkbox"
+                    checked={formik.values.analyticsConsent}
+                    onChange={formik.handleChange}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "400",
+                      color: "#637381",
+                      lineHeight: "1.5",
+                      fontFamily:
+                        '"Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+                    }}
+                  >
+                    <span style={{ color: "#00A76F" }}>Açık Rıza Metni'ni</span>
+                    okudum, kişisel verilerimin analiz amacıyla kullanılmasını
+                    kabul ediyorum.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <Field
+                    type="checkbox"
+                    name="policiesAccepted"
+                    checked={formik.values.policiesAccepted}
+                    onChange={formik.handleChange}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "400",
+                      color: "#637381",
+                      lineHeight: "1.5",
+                      fontFamily:
+                        '"Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+                    }}
+                  >
+                    <span style={{ color: "#00A76F" }}>Hizmet Şartlarını </span>
+                    ve
+                    <span style={{ color: "#00A76F" }}>
+                      {" "}
+                      Gizlilik Politikasını
+                    </span>{" "}
+                    kabul ediyorum.
+                    {formik.touched.policiesAccepted &&
+                      formik.errors.policiesAccepted && (
+                        <div
+                          style={{
+                            color: "#d32f2f",
+                            fontSize: "12px",
+                            lineHeight: "1.66",
+                          }}
+                        >
+                          {formik.errors.policiesAccepted}
+                        </div>
+                      )}
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <Field
+                    name="marketingConsent"
+                    type="checkbox"
+                    checked={formik.values.marketingConsent}
+                    onChange={formik.handleChange}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "400",
+                      color: "#637381",
+                      lineHeight: "1.5",
+                      fontFamily:
+                        '"Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+                    }}
+                  >
+                    Tanıtım, kampanya ve bilgilendirme amaçlı e-posta/SMS
+                    gönderilmesini kabul ediyorum.
+                  </Typography>
+                </Stack>
+              </Box>
             </Stack>
-            <RegisterFormInput
-              name="email"
-              label="Email adresi"
-              variant="outlined"
-              type="text"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-            />
-            <RegisterFormInput
-              name="phoneNumber"
-              label="Telefon Numarası"
-              placeholder="(555) 555 55 55"
-              variant="outlined"
-              type="tel"
-              value={formik.values.phoneNumber}
-              onChange={formik.handleChange}
-            />
-            <RegisterFormInput
-              name="password"
-              label="Şifre"
-              placeholder="6+ karakter"
-              variant="outlined"
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-            />
-            <RegisterFormInput
-              name="confirmPassword"
-              label="Şifreyi tekrar girin"
-              variant="outlined"
-              type="password"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
-            />
-            <Box sx={{ gap: "4px" }}>
-              <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-                <Checkbox
-                  checked={formik.values.analyticsConsent}
-                  onChange={formik.handleChange}
-                />
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    fontWeight: "400",
-                    color: "#637381",
-                    lineHeight: "1.5",
-                    fontFamily:
-                      '"Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-                  }}
-                >
-                  <span style={{ color: "#00A76F" }}>Açık Rıza Metni'ni</span>
-                  okudum, kişisel verilerimin analiz amacıyla kullanılmasını
-                  kabul ediyorum.
-                </Typography>
-              </Stack>{" "}
-              <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-                <Checkbox
-                  checked={formik.values.policiesAccepted}
-                  onChange={formik.handleChange}
-                />
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    fontWeight: "400",
-                    color: "#637381",
-                    lineHeight: "1.5",
-                    fontFamily:
-                      '"Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-                  }}
-                >
-                  <span style={{ color: "#00A76F" }}>Hizmet Şartlarını</span> ve
-                  <span style={{ color: "#00A76F" }}>
-                    Gizlilik Politikasını{" "}
-                  </span>
-                  kabul ediyorum.
-                </Typography>
-              </Stack>
-              <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-                <Checkbox
-                  checked={formik.values.marketingConsent}
-                  onChange={formik.handleChange}
-                />
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    fontWeight: "400",
-                    color: "#637381",
-                    lineHeight: "1.5",
-                    fontFamily:
-                      '"Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-                  }}
-                >
-                  Tanıtım, kampanya ve bilgilendirme amaçlı e-posta/SMS
-                  gönderilmesini kabul ediyorum.
-                </Typography>
-              </Stack>
-            </Box>
-          </Stack>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              backgroundColor: "#1C252E",
-              color: "#fff",
-              padding: "12px 24px",
-              borderRadius: "8px",
-              fontWeight: "700",
-              fontSize: "14px",
-              lineHeight: "1.5",
-              fontFamily: "Nunito Sans",
-              width: "100%",
-              textTransform: "none",
-              marginTop: "24px",
-            }}
-          >
-            Hesap Oluştur
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                backgroundColor: "#1C252E",
+                color: "#fff",
+                padding: "12px 24px",
+                borderRadius: "8px",
+                fontWeight: "700",
+                fontSize: "14px",
+                lineHeight: "1.5",
+                fontFamily: "Nunito Sans",
+                width: "100%",
+                textTransform: "none",
+                marginTop: "24px",
+              }}
+            >
+              Hesap Oluştur
+            </Button>
+          </Form>
+        </Formik>
       </Stack>
     </>
   );

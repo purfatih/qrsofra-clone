@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import { Formik } from "formik";
 
-import { useRegisterFormik } from "../formik/registerFormik";
+import { useRegisterFormik } from "../formik/components/registerFormik";
 
 type Props = {
   name: string;
@@ -12,6 +12,8 @@ type Props = {
   value: string;
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  helperText?: string;
 };
 
 function RegisterFormInput({
@@ -23,26 +25,22 @@ function RegisterFormInput({
   value,
   placeholder,
   onChange,
+  error,
+  helperText,
 }: Props) {
-  const formik = useRegisterFormik();
   return (
-    <Formik
-      initialValues={formik.initialValues}
-      onSubmit={() => {
-        formik.handleSubmit;
-      }}
-    >
-      <TextField
-        name={name}
-        label={label}
-        variant={variant}
-        type={type}
-        fullWidth={fullWidth}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-    </Formik>
+    <TextField
+      name={name}
+      label={label}
+      variant={variant}
+      type={type}
+      fullWidth={fullWidth}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      error={error}
+      helperText={helperText}
+    />
   );
 }
 
