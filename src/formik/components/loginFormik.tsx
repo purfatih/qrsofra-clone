@@ -3,9 +3,11 @@ import { useFormik } from "formik";
 import { LoginApi } from "../../api/LoginApi";
 import { loginValidationSchema } from "../validation/validationSchema";
 import { useNavigate } from "react-router";
+import { useGlobalContext } from "../../Context";
 
 export const useLoginFormik = () => {
   const navigate = useNavigate();
+  const { setResponseData } = useGlobalContext();
   const loginFormik = useFormik<LoginTypes>({
     initialValues: {
       email: "",
@@ -19,12 +21,19 @@ export const useLoginFormik = () => {
         const token = response?.data?.token;
         if (token) {
           localStorage.setItem("token", token);
+          setResponseData({
+            success: true,
+            message: "",
+          });
           navigate("/");
         } else {
           navigate("/login");
         }
       } catch (error: any) {
-        console.error(error.response?.data?.message);
+        setResponseData({
+          success: false,
+          message: error.response.data.message,
+        });
       }
     },
   });

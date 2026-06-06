@@ -10,12 +10,14 @@ import FormInput from "../FormInput";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { VisibilityOff } from "@mui/icons-material";
 import { useLoginFormik } from "../../formik/components/loginFormik";
-
+import ReportIcon from "@mui/icons-material/Report";
 import { useState } from "react";
+import { useGlobalContext } from "../../Context";
 function LoginForm() {
   const formik = useLoginFormik();
   const [showPassword, setShowPassword] = useState(false);
-
+  const { responseData, setResponseData } = useGlobalContext();
+  console.log(responseData);
   return (
     <Stack>
       <Box
@@ -65,18 +67,47 @@ function LoginForm() {
 
       <form style={{ maxWidth: "480px" }} onSubmit={formik.handleSubmit}>
         <Stack sx={{ gap: "24px" }}>
+          {responseData?.success === false && (
+            <Box
+              sx={{
+                backgroundColor: "#FFE9D5",
+                borderRadius: "4px",
+                padding: "12px",
+                marginBottom: "24px",
+              }}
+            >
+              <Typography
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  color: "#7A0916",
+                  fontWeight: 400,
+                  fontSize: "14px",
+                  lineHeight: "1.5",
+                  fontFamily: "Nunito Sans",
+                  borderRadius: "4px",
+                }}
+              >
+                <ReportIcon sx={{ color: "#7A0916" }} />
+                {responseData.message}
+              </Typography>
+            </Box>
+          )}
           <FormInput
             name="email"
             label="Email adresi"
             variant="outlined"
             type="text"
             value={formik.values.email}
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              setResponseData({ success: null, message: "" });
+              formik.handleChange(e);
+            }}
             error={formik.touched?.email && !!formik.errors.email}
             helperText={formik.touched?.email && formik.errors.email}
             onBlur={formik.handleBlur}
           />
-
           <FormInput
             name="password"
             label="Şifre"
