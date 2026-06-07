@@ -13,8 +13,10 @@ import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { VisibilityOff } from "@mui/icons-material";
 import { Field, Form, Formik, type FieldProps } from "formik";
+import { useNavigate } from "react-router";
 
 function RegisterForm() {
+  const navigate = useNavigate();
   const formik = useRegisterFormik();
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -58,6 +60,7 @@ function RegisterForm() {
                 backgroundColor: "transparent",
                 cursor: "pointer",
               }}
+              onClick={() => navigate("/login")}
             >
               Giriş yap
             </button>
@@ -288,6 +291,9 @@ function RegisterForm() {
               </Box>
             </Stack>
             <Button
+              onClick={() => {
+                navigate("/dashboard");
+              }}
               type="submit"
               variant="contained"
               sx={{

@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { LoginApi } from "../../api/LoginApi";
 import { loginValidationSchema } from "../validation/validationSchema";
 import { useNavigate } from "react-router";
-import { useGlobalContext } from "../../Context";
+import { useGlobalContext } from "../../context/Context";
 
 export const useLoginFormik = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export const useLoginFormik = () => {
             success: true,
             message: "",
           });
-          navigate("/");
+          navigate("/dashboard");
         } else {
           navigate("/login");
         }

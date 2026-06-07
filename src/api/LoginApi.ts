@@ -5,7 +5,7 @@ export const LoginApi = async (values: LoginTypes) => {
   try {
     const response = await axiosInstance.post("/auth/login", values);
     // LocalStorage'a token'ı kaydet
-    localStorage.getItem(response.data.data.token);
+    localStorage.setItem("token", response.data.data.token);
     return response.data;
   } catch (error: any) {
     // Hata detaylarını logla

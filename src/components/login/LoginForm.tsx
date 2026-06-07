@@ -12,11 +12,14 @@ import { VisibilityOff } from "@mui/icons-material";
 import { useLoginFormik } from "../../formik/components/loginFormik";
 import ReportIcon from "@mui/icons-material/Report";
 import { useState } from "react";
-import { useGlobalContext } from "../../Context";
+import { useGlobalContext } from "../../context/Context";
+import { useNavigate } from "react-router";
+
 function LoginForm() {
   const formik = useLoginFormik();
   const [showPassword, setShowPassword] = useState(false);
   const { responseData, setResponseData } = useGlobalContext();
+  const navigate = useNavigate();
   console.log(responseData);
   return (
     <Stack>
@@ -50,6 +53,7 @@ function LoginForm() {
         >
           Hesabınız yok mu?
           <button
+            type="button"
             style={{
               fontSize: "14px",
               fontFamily: "Nunito Sans",
@@ -59,6 +63,7 @@ function LoginForm() {
               backgroundColor: "transparent",
               cursor: "pointer",
             }}
+            onClick={() => navigate("/register")}
           >
             Kayıt ol
           </button>
