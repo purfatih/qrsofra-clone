@@ -14,3 +14,13 @@ export type LoginTypes = {
   email: string;
   password: string;
 };
+
+export type RestaurantCreateTypes = {
+  name: string;
+  description?: string;
+  instagramName: string;
+  currencies: string[];
+  status: "ACTIVE" | "PASSIVE";
+  logo: string;
+  logoFile: null;
+};

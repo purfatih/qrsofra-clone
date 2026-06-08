@@ -28,4 +28,11 @@ const loginValidationSchema = Yup.object({
     .min(6, "Şifre en az 6 karakter olmalıdır!")
     .required("Şifre alanı zorunludur!"),
 });
-export { registerValidationSchema, loginValidationSchema };
+const restaurantCreateValidationSchema = Yup.object({
+  name: Yup.string().required("Restoran adı minimum 3 karakter olmalıdır."),
+});
+export {
+  registerValidationSchema,
+  loginValidationSchema,
+  restaurantCreateValidationSchema,
+};

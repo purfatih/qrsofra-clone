@@ -1,23 +1,65 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-type ResponseDataType = {
+type ErrorResponseDataType = {
   success: boolean | null;
   message: string;
 };
+type RestaurantType = {
+  data: [
+    {
+      images?: string;
+      logo?: string;
+      name: string;
+      description?: string;
+      instagramName?: string;
+      currencies?: string[];
+      status?: "ACTIVE" | "PASSIVE";
+      _id?: string;
+      user?: string;
+      createdAt?: string;
+      updatedAt?: string;
+    },
+  ];
+};
 type ContextType = {
-  responseData: ResponseDataType;
-  setResponseData: React.Dispatch<React.SetStateAction<ResponseDataType>>;
+  showRestaurantData: RestaurantType;
+  setShowRestaurantData: React.Dispatch<React.SetStateAction<RestaurantType>>;
+  loginErrorResponseData: ErrorResponseDataType;
+  setLoginErrorResponseData: React.Dispatch<
+    React.SetStateAction<ErrorResponseDataType>
+  >;
+  uploadLogo: string;
+  setUpLoadLogo: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Context = createContext<ContextType | undefined>(undefined);
 
 export function ContextProvider({ children }: { children: ReactNode }) {
-  const [responseData, setResponseData] = useState<ResponseDataType>({
-    success: null,
-    message: "",
+  const [loginErrorResponseData, setLoginErrorResponseData] =
+    useState<ErrorResponseDataType>({
+      success: null,
+      message: "",
+    });
+  const [showRestaurantData, setShowRestaurantData] = useState<RestaurantType>({
+    data: [
+      {
+        name: "",
+        images: "",
+      },
+    ],
   });
+  const [uploadLogo, setUpLoadLogo] = useState("");
 
   return (
-    <Context.Provider value={{ responseData, setResponseData }}>
+    <Context.Provider
+      value={{
+        loginErrorResponseData,
+        setLoginErrorResponseData,
+        showRestaurantData,
+        setShowRestaurantData,
+        uploadLogo,
+        setUpLoadLogo,
+      }}
+    >
       {children}
     </Context.Provider>
   );

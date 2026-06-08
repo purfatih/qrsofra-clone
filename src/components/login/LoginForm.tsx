@@ -18,9 +18,10 @@ import { useNavigate } from "react-router";
 function LoginForm() {
   const formik = useLoginFormik();
   const [showPassword, setShowPassword] = useState(false);
-  const { responseData, setResponseData } = useGlobalContext();
+  const { loginErrorResponseData, setLoginErrorResponseData } =
+    useGlobalContext();
   const navigate = useNavigate();
-  console.log(responseData);
+  console.log(loginErrorResponseData);
   return (
     <Stack>
       <Box
@@ -72,7 +73,7 @@ function LoginForm() {
 
       <form style={{ maxWidth: "480px" }} onSubmit={formik.handleSubmit}>
         <Stack sx={{ gap: "24px" }}>
-          {responseData?.success === false && (
+          {loginErrorResponseData?.success === false && (
             <Box
               sx={{
                 backgroundColor: "#FFE9D5",
@@ -95,7 +96,7 @@ function LoginForm() {
                 }}
               >
                 <ReportIcon sx={{ color: "#7A0916" }} />
-                {responseData.message}
+                {loginErrorResponseData.message}
               </Typography>
             </Box>
           )}
@@ -106,7 +107,7 @@ function LoginForm() {
             type="text"
             value={formik.values.email}
             onChange={(e) => {
-              setResponseData({ success: null, message: "" });
+              setLoginErrorResponseData({ success: null, message: "" });
               formik.handleChange(e);
             }}
             error={formik.touched?.email && !!formik.errors.email}
