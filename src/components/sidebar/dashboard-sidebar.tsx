@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
-import Logo from "../assets/images/logo-row.png";
-import SideBarImg from "../assets/images/sidebar-img.png";
+import Logo from "../../assets/images/logo-row.png";
+import SideBarImg from "../../assets/images/sidebar-img.png";
 function DashboardSidebar() {
   return (
     <Box

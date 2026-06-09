@@ -4,15 +4,14 @@ import {
   IconButton,
   InputAdornment,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import FormInput from "../FormInput";
-import { useRegisterFormik } from "../../formik/components/registerFormik";
+import FormInput from "../form-input";
+import { useRegisterFormik } from "../../formik/components/register-formik";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { VisibilityOff } from "@mui/icons-material";
-import { Field, Form, Formik, type FieldProps } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useNavigate } from "react-router";
 
 function RegisterForm() {

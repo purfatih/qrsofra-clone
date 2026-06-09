@@ -1,6 +1,5 @@
 import axiosInstance from "./axiosInstance";
 import type { RestaurantCreateTypes } from "../types";
-import { useGlobalContext } from "../context/Context";
 export const RestaurantCreateApi = async (values: RestaurantCreateTypes) => {
   /*  const formData = new FormData();
   formData.append("logo", values.logo);
@@ -42,7 +41,7 @@ export const GetRestaurantApi = async () => {
     throw error;
   }
 };
-/* export const UploadLogoApi = async (images: File) => {
+export const UploadLogoApi = async (images: File) => {
   const formData = new FormData();
   formData.append("images", images);
   const response = await axiosInstance.post("/file/upload", formData, {
@@ -51,8 +50,8 @@ export const GetRestaurantApi = async () => {
       "Content-Type": "multipart/form-data",
     },
   });
+
   console.log(response.data);
 
   return response.data;
 };
- */

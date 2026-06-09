@@ -1,13 +1,13 @@
 import type { LoginTypes } from "../../types";
 import { useFormik } from "formik";
-import { LoginApi } from "../../api/LoginApi";
+import { LoginApi } from "../../api/login-api";
 import { loginValidationSchema } from "../validation/validationSchema";
 import { useNavigate } from "react-router";
 import { useGlobalContext } from "../../context/Context";
 
 export const useLoginFormik = () => {
   const navigate = useNavigate();
-  const { setResponseData } = useGlobalContext();
+  const { setLoginErrorResponseData } = useGlobalContext();
   const loginFormik = useFormik<LoginTypes>({
     initialValues: {
       email: "",
@@ -21,7 +21,7 @@ export const useLoginFormik = () => {
         const token = response?.data?.token;
         if (token) {
           localStorage.setItem("token", token);
-          setResponseData({
+          setLoginErrorResponseData({
             success: true,
             message: "",
           });
@@ -30,7 +30,7 @@ export const useLoginFormik = () => {
           navigate("/login");
         }
       } catch (error: any) {
-        setResponseData({
+        setLoginErrorResponseData({
           success: false,
           message: error.response.data.message,
         });

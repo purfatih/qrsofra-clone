@@ -11,9 +11,11 @@ import {
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { useRestaurantCreateFormik } from "../../formik/components/restaurant-formik";
+import { useGlobalContext } from "../../context/Context";
 
 function CreateRestaurant() {
   const restaurantFormik = useRestaurantCreateFormik();
+
   return (
     <Box
       sx={{
@@ -95,60 +97,88 @@ function CreateRestaurant() {
                 padding: "16px",
               }}
             >
-              <label
+              <Box
+                component={"label"}
                 htmlFor="logo"
-                style={{
-                  width: "126px",
-                  height: "126px",
+                sx={{
                   position: "relative",
+                  borderRadius: "100%",
+                  width: "130px",
+                  height: "130px",
+                  padding: 0,
+                  overflow: "hidden",
+                  backgroundColor: "#f8f9fa",
+                  color: "#637381",
+                  textTransform: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  "&:hover .overlay": {
+                    opacity: 1,
+                  },
                 }}
               >
-                <Button
-                  component="span"
-                  sx={{
-                    borderRadius: "100px",
-                    width: "126px",
-                    height: "126px",
-                    padding: "16px",
-                    backgroundColor: "#919eab14",
-                    color: "#637381",
-                    fontWeight: "600",
-                    fontFamily: "Nunito Sans",
-                  }}
-                >
+                {restaurantFormik.values.logo ? (
+                  <>
+                    <Box
+                      component="img"
+                      src={restaurantFormik.values.logo}
+                      alt="Restaurant Logo"
+                      sx={{
+                        inset: 0,
+                        height: "126px",
+                        width: "126px",
+                        objectFit: "cover",
+                      }}
+                    />
+
+                    <Box
+                      className="overlay"
+                      sx={{
+                        position: "absolute",
+                        inset: 0,
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 0.5,
+                        opacity: 0,
+                        transition: "opacity .2s ease",
+                        color: "#fff",
+                      }}
+                    >
+                      <PhotoCameraIcon />
+
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: "#fff",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Fotoğrafı Güncelle
+                      </Typography>
+                    </Box>
+                  </>
+                ) : (
                   <Stack
                     sx={{
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                       gap: "8px",
-                      textTransform: "none",
                       fontSize: "12px",
-                      fontWeight: "600",
-                      fontFamily: "Nunito Sans",
+                      fontWeight: 600,
                     }}
                   >
-                    <PhotoCameraIcon sx={{ width: "24px", height: "24px" }} />
+                    <PhotoCameraIcon sx={{ width: 24, height: 24 }} />
                     Fotoğraf Yükle
-                    {restaurantFormik.values?.logo && (
-                      <img
-                        style={{
-                          borderRadius: "50%",
-                          width: "126px",
-                          height: "126px",
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          zIndex: "1",
-                          objectFit: "cover",
-                        }}
-                        src={restaurantFormik.values?.logo}
-                        alt=""
-                      />
-                    )}
                   </Stack>
-                </Button>
-              </label>
+                )}
+              </Box>
+
               <input
                 id="logo"
                 hidden
@@ -156,7 +186,6 @@ function CreateRestaurant() {
                 onChange={async (e) => {
                   const file = e.target.files?.[0];
                   if (!file) return;
-
                   restaurantFormik.setFieldValue("logoFile", file);
                   restaurantFormik.setFieldValue(
                     "logo",

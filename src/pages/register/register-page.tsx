@@ -1,4 +1,4 @@
-import RegisterDashboard from "../../components/register/RegisterDashboard";
+import RegisterDashboard from "../../components/register/register-dashboard";
 
 function RegisterPage() {
   return <RegisterDashboard />;

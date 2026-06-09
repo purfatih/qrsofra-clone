@@ -6,10 +6,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import FormInput from "../FormInput";
+import FormInput from "../form-input";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { VisibilityOff } from "@mui/icons-material";
-import { useLoginFormik } from "../../formik/components/loginFormik";
+import { useLoginFormik } from "../../formik/components/login-formik";
 import ReportIcon from "@mui/icons-material/Report";
 import { useState } from "react";
 import { useGlobalContext } from "../../context/Context";

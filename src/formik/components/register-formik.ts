@@ -1,6 +1,6 @@
 import type { RegisterTypes } from "../../types";
 import { useFormik, type FormikValues } from "formik";
-import { RegisterApi } from "../../api/RegisterApi";
+import { RegisterApi } from "../../api/register-api";
 import { registerValidationSchema } from "../validation/validationSchema";
 export const useRegisterFormik = () => {
   const RegisterFormik: FormikValues = useFormik<RegisterTypes>({

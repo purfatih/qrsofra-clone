@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/material";
-import DashboardSidebar from "../DashboardSidebar";
-import LoginForm from "./LoginForm";
+import DashboardSidebar from "../sidebar/dashboard-sidebar";
+import LoginForm from "./login-form";
 
 function LoginDashboard() {
   return (
