@@ -8,7 +8,8 @@ import CreateRestaurant from "../pages/restaurant/create-restaurant";
 import DashboardLayout from "../pages/layout/dashboard-layout";
 import Dashboard from "../pages/dashboard/Dashboard";
 import HomePage from "../pages/home/home-page";
-
+import Branch from "../components/side-navigation/Branch";
+import Category from "../components/side-navigation/Category";
 export const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "/login", element: <LoginDashboard /> },
@@ -24,12 +25,25 @@ export const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
+            path: "home",
+            element: <HomePage />,
+          },
+          {
             path: "create-restaurant",
             element: <CreateRestaurant />,
           },
           {
-            path: "home",
             element: <HomePage />,
+            children: [
+              {
+                path: "branches/list",
+                element: <Branch />,
+              },
+              {
+                path: "categories/list",
+                element: <Category />,
+              },
+            ],
           },
         ],
       },

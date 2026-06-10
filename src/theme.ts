@@ -2,6 +2,14 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   components: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          fontSize: "14px",
+          fontFamily: "Nunito Sans",
+        },
+      },
+    },
     MuiTextField: {
       styleOverrides: {
         root: {

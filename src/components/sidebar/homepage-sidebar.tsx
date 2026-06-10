@@ -1,39 +1,43 @@
 import { Box, Stack, Typography } from "@mui/material";
 import logoImage from "../../assets/images/logo-row.png";
-import { Home, Store, Category, Inventory, Sort } from "@mui/icons-material";
+import { Home, Category, Inventory, Sort, Store } from "@mui/icons-material";
+import { Link } from "react-router";
+
 function HomepageSidebar() {
   const sidebarItems = [
     {
       label: "Ana Sayfa",
       icon: <Home />,
+      path: "/dashboard/home",
     },
     {
       label: "Şubeler",
       icon: <Store />,
+      path: "/dashboard/branches/list",
     },
     {
       label: "Kategoriler",
       icon: <Category />,
+      path: "/dashboard/categories/list",
     },
     {
       label: "Ürünler",
       icon: <Inventory />,
+      path: "/dashboard/products/list",
     },
     {
       label: "Sıralama",
       icon: <Sort />,
+      path: "/dashboard/sorting",
     },
   ];
   return (
     <Box
       sx={{
         width: "300px",
-        height: "100%",
+        height: "100vh",
         bgcolor: "#ffffff",
         padding: "20px",
-        position: "fixed",
-        top: "0",
-        left: "0",
         borderRight: "1px solid #E5E7EB",
       }}
     >
@@ -56,8 +60,12 @@ function HomepageSidebar() {
       <Stack sx={{ paddingY: "4px", pr: "8px" }}>
         {sidebarItems.map((item) => (
           <Stack
-            key={item.label}
+            key={item.path}
+            component={Link}
+            to={item.path}
             sx={{
+              textDecoration: "none",
+              color: "inherit",
               display: "flex",
               flexDirection: "row",
               gap: "8px",
