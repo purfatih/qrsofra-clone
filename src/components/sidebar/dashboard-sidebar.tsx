@@ -64,6 +64,7 @@ function DashboardSidebar() {
             Restoranınızı ücretsiz bir şekilde dijitalleştirin ve yönetin.
           </Typography>
         </Stack>
+        <Box> </Box>
         <Box>
           <img
             src={SideBarImg}

@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Icon, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import logoImage from "../../assets/images/logo-row.png";
 import { Home, Store, Category, Inventory, Sort } from "@mui/icons-material";
 function HomepageSidebar() {
@@ -60,7 +60,6 @@ function HomepageSidebar() {
             sx={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
               gap: "8px",
               padding: "10px",
               borderRadius: "8px",
