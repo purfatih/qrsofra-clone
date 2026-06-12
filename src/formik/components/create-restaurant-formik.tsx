@@ -6,8 +6,8 @@ import { useNavigate } from "react-router";
 import { useGlobalContext } from "../../context/Context";
 
 export const useRestaurantCreateFormik = () => {
-  const { setShowRestaurantData } = useGlobalContext();
   const navigate = useNavigate();
+  const { setShowRestaurantData, setRestaurantId } = useGlobalContext();
   const restaurantFormik = useFormik<RestaurantCreateTypes>({
     initialValues: {
       name: "",
@@ -16,6 +16,7 @@ export const useRestaurantCreateFormik = () => {
       currencies: ["TRY", "USD"],
       status: "ACTIVE",
       logo: "",
+      _id: "",
       logoFile: null,
     },
 
@@ -31,11 +32,13 @@ export const useRestaurantCreateFormik = () => {
           ...values,
           logo: logoUrl,
         });
-        console.log("Restaurant response:", response);
-        setShowRestaurantData(response.data.data);
         navigate("/dashboard");
+        setShowRestaurantData((prev) => [...prev, response.data]);
+        setRestaurantId(response.data._id ?? "");
+        return response.data;
       } catch (error: any) {
         console.log(error.response.data.message);
+        throw error;
       }
     },
     validationSchema: restaurantCreateValidationSchema,

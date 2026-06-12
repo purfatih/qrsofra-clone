@@ -22,5 +22,36 @@ export type RestaurantCreateTypes = {
   currencies: string[];
   status: "ACTIVE" | "PASSIVE";
   logo: string;
-  logoFile: null;
+  logoFile: File | null;
+  _id?: string;
+};
+
+export type BranchTypes = {
+  restaurantId?: string;
+  name?: string;
+  status?: "ACTIVE" | "PASSIVE";
+  userId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  _id?: string;
+};
+
+export type BranchResponseTypes = {
+  data: BranchTypes[];
+  success: boolean;
+};
+
+export type CategoryResponseTypes = {
+  data: CategoryTypes[];
+  success: boolean;
+};
+export type CategoryTypes = {
+  _id?: string;
+  restaurantId?: string;
+  name?: string;
+  order?: number;
+  status?: "ACTIVE" | "PASSIVE";
+  createdAt?: string;
+  updatedAt?: string;
+  branchIds?: string[];
 };

@@ -1,24 +1,12 @@
-import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { Avatar, Box, ButtonBase, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router";
 import { useGlobalContext } from "../../context/Context";
-import { useEffect } from "react";
-import { GetRestaurantApi } from "../../api/restaurant-api";
+
 function Dashboard() {
   const navigate = useNavigate();
-  const { showRestaurantData, setShowRestaurantData } = useGlobalContext();
+  const { showRestaurantData, setRestaurantId } = useGlobalContext();
 
-  useEffect(() => {
-    const getRestaurantData = async () => {
-      try {
-        const response = await GetRestaurantApi();
-        setShowRestaurantData(response);
-      } catch (error: any) {
-        console.log(error.response.data.message);
-      }
-    };
-    getRestaurantData();
-  }, []);
   return (
     <>
       <Box
@@ -83,7 +71,7 @@ function Dashboard() {
           zIndex: 1,
         }}
       >
-        {showRestaurantData?.data.map((item, index) => {
+        {showRestaurantData?.map((item, index) => {
           return (
             <Stack
               key={index}
@@ -100,20 +88,29 @@ function Dashboard() {
                 gap: "24px",
               }}
             >
-              <Avatar
-                src={item.logo}
-                sx={{ width: "100px", height: "100px" }}
-              />
+              <ButtonBase
+                onClick={() => {
+                  console.log("Tıklanan restoran ID:", item._id);
+                  setRestaurantId(item._id ?? "");
+                  navigate(`/dashboard/home`);
+                }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Avatar
+                  src={item.logo}
+                  sx={{ width: "100px", height: "100px" }}
+                />
+              </ButtonBase>
 
               <Typography>{item.name}</Typography>
-              <Typography>{item.instagramName}</Typography>
             </Stack>
           );
         })}
         <Stack
-          onClick={() => {
-            navigate("/dashboard/create-restaurant");
-          }}
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -122,31 +119,43 @@ function Dashboard() {
             height: "300px",
             borderRadius: "16px",
             border: "1px solid #E5E7EB",
-            cursor: "pointer",
-            bgcolor: "#fff",
+            zIndex: 1,
+            backgroundColor: "#fff",
+            gap: "24px",
           }}
         >
-          <Stack
+          <ButtonBase
+            onClick={() => {
+              navigate(`/dashboard/create-restaurant`);
+            }}
             sx={{
               display: "flex",
-              alignItems: "center",
               justifyContent: "center",
-              flexDirection: "column",
-              gap: "68px",
+              alignItems: "center",
             }}
           >
-            <AddIcon sx={{ width: "32px", height: "32px", color: "#C4CDD5" }} />
-            <Typography
+            <Stack
               sx={{
-                fontSize: "16px",
-                fontWeight: "600",
-                color: "#454f5b",
-                fontFamily: "Nunito Sans",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "24px",
               }}
             >
-              Restoran Oluştur
-            </Typography>
-          </Stack>
+              <Stack
+                sx={{
+                  width: "100px",
+                  height: "100px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <AddIcon sx={{ width: "32px", height: "32px" }} />
+              </Stack>
+              <Typography>Restoran Oluştur</Typography>
+            </Stack>
+          </ButtonBase>
         </Stack>
       </Box>
     </>

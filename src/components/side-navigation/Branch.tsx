@@ -1,15 +1,20 @@
 import { Add } from "@mui/icons-material";
-import {
-  Breadcrumbs,
-  Button,
-  Container,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 import BranchTable from "../../components/table/branch-table";
+import BreadMenuItems from "../bread-menu-items";
 
 function Branch() {
+  const menuItems = [
+    {
+      title: "Anasayfa",
+      path: "/dashboard/home",
+    },
+    {
+      title: "Şubeler",
+      path: "/dashboard/branches/list",
+    },
+  ];
   return (
     <Container sx={{ padding: "40px" }}>
       <Stack
@@ -41,55 +46,44 @@ function Branch() {
               flexDirection: "row",
             }}
           >
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link
-                underline="hover"
-                color="#1C252E"
-                sx={{ fontSize: "14px", fontFamily: "Nunito Sans" }}
-                href="/dashboard/home"
-              >
-                Anasayfa
-              </Link>
-              <Typography sx={{ color: "#919EAB", fontSize: "14px" }}>
-                Şubeler
-              </Typography>
-            </Breadcrumbs>
+            <BreadMenuItems menuItems={menuItems} />
           </Stack>
         </Stack>
-        <Button
-          sx={{
-            backgroundColor: "#1C252E",
-            height: "36px",
-            borderRadius: "8px",
-            color: "#ffffff",
-            fontSize: "14px",
-            fontFamily: "Nunito Sans",
-            fontWeight: "700",
-            textTransform: "none",
-            "&:hover": { backgroundColor: "#1C252E99" },
-          }}
-          variant="contained"
-        >
-          <Stack
+        <Link to="/dashboard/branches/new">
+          <Button
             sx={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
+              backgroundColor: "#1C252E",
+              height: "36px",
+              borderRadius: "8px",
+              color: "#ffffff",
+              fontSize: "14px",
+              fontFamily: "Nunito Sans",
+              fontWeight: "700",
+              textTransform: "none",
+              "&:hover": { backgroundColor: "#1C252E99" },
             }}
           >
-            <Add sx={{ width: "20px", height: "20px", fontSize: "20px" }} />
-            <Typography
+            <Stack
               sx={{
-                fontSize: "14px",
-                fontFamily: "Nunito Sans",
-                fontWeight: 700,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
               }}
             >
-              Yeni Şube Oluştur
-            </Typography>
-          </Stack>
-        </Button>
+              <Add sx={{ width: "20px", height: "20px", fontSize: "20px" }} />
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  fontFamily: "Nunito Sans",
+                  fontWeight: 700,
+                }}
+              >
+                Yeni Şube Oluştur
+              </Typography>
+            </Stack>
+          </Button>
+        </Link>
       </Stack>
       <BranchTable />
     </Container>

@@ -14,7 +14,6 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "& .MuiOutlinedInput-root": {
-            height: "56px",
             borderRadius: "12px",
             backgroundColor: "#ffffff",
             "&.Mui-focused fieldset": {

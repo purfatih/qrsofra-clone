@@ -7,7 +7,7 @@ import { useGlobalContext } from "../../context/Context";
 
 export const useLoginFormik = () => {
   const navigate = useNavigate();
-  const { setLoginErrorResponseData } = useGlobalContext();
+  const { setLoginErrorResponseData, fetchRestaurants } = useGlobalContext();
   const loginFormik = useFormik<LoginTypes>({
     initialValues: {
       email: "",
@@ -25,6 +25,7 @@ export const useLoginFormik = () => {
             success: true,
             message: "",
           });
+          await fetchRestaurants();
           navigate("/dashboard");
         } else {
           navigate("/login");

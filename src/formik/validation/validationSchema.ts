@@ -31,8 +31,24 @@ const loginValidationSchema = Yup.object({
 const restaurantCreateValidationSchema = Yup.object({
   name: Yup.string().required("Restoran adı minimum 3 karakter olmalıdır."),
 });
+const BranchValidationSchema = Yup.object({
+  name: Yup.string()
+    .min(3, "Şifre en az 3 karakter olmalıdır!")
+    .required("Şube adı en az 3 karakter olmalıdır"),
+});
+const CategoryValidationSchema = Yup.object({
+  name: Yup.string()
+    .min(3, "Kategori adı en az 3 karakter olmalıdır!")
+    .required("Kategori adı boş olamaz"),
+  branchIds: Yup.array().min(
+    1,
+    "En az bir şube seçiniz, şubeniz yoksa 'Şubeler' kısmından oluşturabilirsiniz.",
+  ),
+});
 export {
   registerValidationSchema,
   loginValidationSchema,
   restaurantCreateValidationSchema,
+  BranchValidationSchema,
+  CategoryValidationSchema,
 };

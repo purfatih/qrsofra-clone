@@ -2,14 +2,15 @@ import { Add } from "@mui/icons-material";
 import {
   Breadcrumbs,
   Button,
+  ButtonBase,
   Container,
-  Link,
   Stack,
   Typography,
 } from "@mui/material";
 import CategoryTable from "../table/category-table";
-
+import { Link, useNavigate } from "react-router-dom";
 function Category() {
+  const navigate = useNavigate();
   return (
     <Container sx={{ padding: "40px" }}>
       <Stack
@@ -34,7 +35,7 @@ function Category() {
               fontWeight: "700",
             }}
           >
-            Şubeler
+            Kategoriler
           </Typography>
           <Stack
             sx={{
@@ -42,16 +43,20 @@ function Category() {
             }}
           >
             <Breadcrumbs aria-label="breadcrumb">
-              <Link
-                underline="hover"
-                color="#1C252E"
-                sx={{ fontSize: "14px", fontFamily: "Nunito Sans" }}
-                href="/dashboard/home"
-              >
-                Anasayfa
+              <Link to="/dashboard/home">
+                <ButtonBase
+                  sx={{
+                    fontSize: "14px",
+                    fontFamily: "Nunito Sans",
+                    color: "#1C252E",
+                    "&:hover": { textDecoration: "underline" },
+                  }}
+                >
+                  Anasayfa
+                </ButtonBase>
               </Link>
               <Typography sx={{ color: "#919EAB", fontSize: "14px" }}>
-                Şubeler
+                Kategoriler
               </Typography>
             </Breadcrumbs>
           </Stack>
@@ -69,6 +74,7 @@ function Category() {
             "&:hover": { backgroundColor: "#1C252E99" },
           }}
           variant="contained"
+          onClick={() => navigate("/dashboard/categories/new")}
         >
           <Stack
             sx={{

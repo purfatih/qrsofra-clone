@@ -10,8 +10,7 @@ import {
 } from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { useRestaurantCreateFormik } from "../../formik/components/restaurant-formik";
-import { useGlobalContext } from "../../context/Context";
+import { useRestaurantCreateFormik } from "../../formik/components/create-restaurant-formik";
 
 function CreateRestaurant() {
   const restaurantFormik = useRestaurantCreateFormik();
@@ -212,7 +211,6 @@ function CreateRestaurant() {
               variant="outlined"
               value={restaurantFormik.values.name}
               onChange={restaurantFormik.handleChange}
-              onBlur={restaurantFormik.handleBlur}
               error={
                 restaurantFormik.touched.name && !!restaurantFormik.errors.name
               }

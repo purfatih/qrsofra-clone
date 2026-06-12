@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, ButtonBase, Stack, Typography } from "@mui/material";
 import logoImage from "../../assets/images/logo-row.png";
 import { Home, Category, Inventory, Sort, Store } from "@mui/icons-material";
 import { Link } from "react-router";
@@ -41,17 +41,19 @@ function HomepageSidebar() {
         borderRight: "1px solid #E5E7EB",
       }}
     >
-      <Typography
-        component={"img"}
-        src={logoImage}
-        alt="logo"
-        sx={{
-          width: "110px",
-          height: "40px",
-          objectFit: "contain",
-          paddingBottom: "8px",
-        }}
-      />
+      <ButtonBase component={Link} to={"/dashboard"}>
+        <Typography
+          component={"img"}
+          src={logoImage}
+          alt="logo"
+          sx={{
+            width: "110px",
+            height: "40px",
+            objectFit: "contain",
+            paddingBottom: "8px",
+          }}
+        />
+      </ButtonBase>
       <Typography
         sx={{ fontSize: "11px", color: "#919EAB", paddingTop: "16px" }}
       >
