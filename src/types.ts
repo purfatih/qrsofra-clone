@@ -20,7 +20,7 @@ export type RestaurantCreateTypes = {
   description?: string;
   instagramName: string;
   currencies: string[];
-  status: "ACTIVE" | "PASSIVE";
+  status: 'ACTIVE' | 'PASSIVE';
   logo: string;
   logoFile: File | null;
   _id?: string;
@@ -29,7 +29,7 @@ export type RestaurantCreateTypes = {
 export type BranchTypes = {
   restaurantId?: string;
   name?: string;
-  status?: "ACTIVE" | "PASSIVE";
+  status?: 'ACTIVE' | 'PASSIVE';
   userId?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -46,16 +46,35 @@ export type CategoryResponseTypes = {
   success: boolean;
 };
 export type CategoryTypes = {
+  name: string;
   _id?: string;
   restaurantId?: string;
-  name?: string;
   order?: number;
-  status?: "ACTIVE" | "PASSIVE";
+  status?: 'ACTIVE' | 'PASSIVE';
   createdAt?: string;
   updatedAt?: string;
   branches?: {
     _id: string;
-    name: string;
+    name?: string;
   }[];
   branchIds?: string[];
+};
+export type ProductTypes = {
+  name?: string;
+  description: string;
+  price: number;
+  categories: CategoryTypes[];
+  image?: string;
+  imageFile?: File | null;
+  extraProducts: string[];
+  restaurantId: string;
+  status: 'ACTIVE' | 'PASSIVE';
+  branches: string[];
+  _id?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+export type ProductResponseTypes = {
+  data: ProductTypes[];
+  success: boolean;
 };

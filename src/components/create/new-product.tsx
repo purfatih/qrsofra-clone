@@ -9,50 +9,56 @@ import {
   InputAdornment,
   Box,
   Grid,
-} from "@mui/material";
-import FormInput from "../form-input";
-import { useNewCategoryFormik } from "../../formik/components/newcategory-formik";
-import { useEffect } from "react";
-import { useGlobalContext } from "../../context/Context";
-import BreadMenuItems from "../bread-menu-items";
-import { GetBranchesApi } from "../../api/branches-api";
-import AutocompleteComp from "../autocomplete";
+} from '@mui/material';
+import FormInput from '../form-input';
+import { useEffect } from 'react';
+import { useGlobalContext } from '../../context/Context';
+import BreadMenuItems from '../bread-menu-items';
+import { GetBranchesApi } from '../../api/branches-api';
+import AutocompleteComp from '../autocomplete';
+import { useNewProductFormik } from '../../formik/components/newproduct-formik';
+import { GetCategoriesApi } from '../../api/category-api';
+import type { CategoryTypes } from '../../types';
 
-function NewCategory() {
-  const { branches, setBranches, restaurantId } = useGlobalContext();
+function NewProduct() {
+  const { branches, setBranches, restaurantId, categories, setCategories } =
+    useGlobalContext();
   useEffect(() => {
-    const fetchBranches = async () => {
+    const fetchRestaurants = async () => {
       if (restaurantId) {
-        const data = await GetBranchesApi(restaurantId);
-        setBranches(data);
+        const dataBranch = await GetBranchesApi(restaurantId);
+        setBranches(dataBranch);
+        const dataCategory = await GetCategoriesApi(restaurantId);
+        setCategories(dataCategory.data);
       }
     };
-    fetchBranches();
+
+    fetchRestaurants();
   }, [restaurantId]);
-  const newCategoryFormik = useNewCategoryFormik();
+  const newProductFormik = useNewProductFormik();
   const menuItems = [
     {
-      title: "Anasayfa",
-      path: "/dashboard/home",
+      title: 'Anasayfa',
+      path: '/dashboard/home',
     },
     {
-      title: "Ürünler",
-      path: "/dashboard/products/list",
+      title: 'Ürünler',
+      path: '/dashboard/products/list',
     },
     {
-      title: "Yeni Ürün",
-      path: "/dashboard/products/new",
+      title: 'Yeni Ürün',
+      path: '/dashboard/products/new',
     },
   ];
 
   return (
-    <Container sx={{ padding: "40px" }}>
+    <Container sx={{ padding: '40px' }}>
       <Typography
         sx={{
-          fontSize: "24px",
-          fontFamily: "Nunito Sans",
+          fontSize: '24px',
+          fontFamily: 'Nunito Sans',
           fontWeight: 700,
-          color: "#1C252E",
+          color: '#1C252E',
         }}
       >
         Yeni Ürün Oluştur
@@ -60,32 +66,32 @@ function NewCategory() {
 
       <BreadMenuItems menuItems={menuItems} />
       <Grid container>
-        <Stack sx={{ flexDirection: "row", gap: "24px", mt: "40px" }}>
+        <Stack sx={{ flexDirection: 'row', gap: '24px', mt: '40px' }}>
           <Grid size={4}>
             <Paper
               sx={{
-                padding: "24px",
-                height: "325px",
+                padding: '24px',
+                height: '325px',
               }}
             >
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "#1C252E1A",
-                  border: "2px dashed #1C252E1A",
-                  borderRadius: "8px",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: '#1C252E1A',
+                  border: '2px dashed #1C252E1A',
+                  borderRadius: '8px',
                 }}
               >
                 <Typography
                   sx={{
-                    fontSize: "14px",
-                    fontWeight: "400",
-                    fontFamily: "Nunito Sans",
-                    textAlign: "center",
+                    fontSize: '14px',
+                    fontWeight: '400',
+                    fontFamily: 'Nunito Sans',
+                    textAlign: 'center',
                   }}
                 >
                   Sürükleyin veya dosya seçin Dosyaları buraya sürükleyin veya
@@ -98,34 +104,34 @@ function NewCategory() {
             <Stack>
               <Paper
                 sx={{
-                  width: "100%",
-                  mx: "auto",
-                  borderRadius: "8px",
-                  padding: "24px",
+                  width: '100%',
+                  mx: 'auto',
+                  borderRadius: '8px',
+                  padding: '24px',
                 }}
                 elevation={1}
               >
                 <Stack
                   sx={{
-                    height: "80px",
+                    height: '80px',
                   }}
                 >
                   <Typography
                     sx={{
-                      fontSize: "18px",
-                      fontFamily: "Nunito Sans",
-                      fontWeight: "400",
+                      fontSize: '18px',
+                      fontFamily: 'Nunito Sans',
+                      fontWeight: '400',
                     }}
                   >
                     Yeni Ürün Oluştur
                   </Typography>
                   <Typography
                     sx={{
-                      mt: "4px",
-                      fontSize: "14px",
-                      fontFamily: "Nunito Sans",
-                      fontWeight: "400",
-                      color: "#637381",
+                      mt: '4px',
+                      fontSize: '14px',
+                      fontFamily: 'Nunito Sans',
+                      fontWeight: '400',
+                      color: '#637381',
                     }}
                   >
                     Olivetta için yeni bir kategori oluşturun
@@ -133,73 +139,77 @@ function NewCategory() {
                 </Stack>
                 <Divider
                   sx={{
-                    mx: "-24px",
-                    height: "1px",
-                    backgroundColor: "#E5E7EB",
+                    mx: '-24px',
+                    height: '1px',
+                    backgroundColor: '#E5E7EB',
                   }}
                 />
-                <form onSubmit={newCategoryFormik.handleSubmit}>
+                <form onSubmit={newProductFormik.handleSubmit}>
                   <Stack
                     sx={{
-                      pt: "24px",
-                      height: "max-content",
-                      gap: "24px",
+                      pt: '24px',
+                      height: 'max-content',
+                      gap: '24px',
                     }}
                   >
                     <AutocompleteComp
-                      options={branches}
+                      options={categories}
                       error={
-                        newCategoryFormik.touched.branchIds &&
-                        Boolean(newCategoryFormik.errors.branchIds)
+                        newProductFormik.touched.categories &&
+                        Boolean(newProductFormik.errors.categories)
                       }
                       helperText={
-                        newCategoryFormik.touched.branchIds &&
-                        newCategoryFormik.errors.branchIds
+                        newProductFormik.touched.categories &&
+                        newProductFormik.errors.categories
                       }
                       label="Ürün Kategorisi"
-                      getOptionLabel={(branch) => branch.name}
-                      value={branches.filter((b) =>
-                        newCategoryFormik.values.branchIds.includes(b._id),
-                      )}
+                      getOptionLabel={(category) => category.name}
+                      value={
+                        categories?.filter((c: CategoryTypes) =>
+                          newProductFormik.values.categories?.includes(
+                            c._id || '',
+                          ),
+                        ) ?? []
+                      }
                       onChange={(_, newValue) => {
-                        newCategoryFormik.setFieldValue(
-                          "branchIds",
-                          newValue.map((b) => b._id),
+                        newProductFormik.setFieldValue(
+                          'categories',
+                          newValue.map((c) => c._id),
                         );
                       }}
                     />
                     <FormInput
-                      label="Kategori Adı"
+                      label="Ürün Adı"
                       name="name"
-                      value={newCategoryFormik.values.name}
-                      onChange={newCategoryFormik.handleChange}
-                      onBlur={newCategoryFormik.handleBlur}
+                      value={newProductFormik.values.name}
+                      onChange={newProductFormik.handleChange}
+                      onBlur={newProductFormik.handleBlur}
                       sx={{
-                        "& .MuiFormLabel-root": {
-                          fontFamily: "Nunito Sans",
-                          fontWeight: "400",
-                          color: "#919EAB",
+                        '& .MuiFormLabel-root': {
+                          fontFamily: 'Nunito Sans',
+                          fontWeight: '400',
+                          color: '#919EAB',
                         },
-                        "& .MuiInputLabel-root.Mui-focused": {
-                          color: "#1C252E",
-                          fontFamily: "Nunito Sans",
-                          fontWeight: "400",
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: '#1C252E',
+                          fontFamily: 'Nunito Sans',
+                          fontWeight: '400',
                         },
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { color: "black" },
-                          "&.Mui-focused fieldset": {
-                            borderColor: "#1C252E",
-                            borderWidth: "1px",
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': { color: 'black' },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#1C252E',
+                            borderWidth: '1px',
                           },
                         },
                       }}
                       error={
-                        newCategoryFormik.touched.name &&
-                        Boolean(newCategoryFormik.errors.name)
+                        newProductFormik.touched.name &&
+                        Boolean(newProductFormik.errors.name)
                       }
                       helperText={
-                        newCategoryFormik.touched.name &&
-                        newCategoryFormik.errors.name
+                        newProductFormik.touched.name &&
+                        newProductFormik.errors.name
                       }
                     />
                     <TextField
@@ -208,30 +218,40 @@ function NewCategory() {
                       name="description"
                       placeholder="Ürün Açıklaması"
                       sx={{
-                        "& textarea::placeholder": {
-                          color: "#637381",
+                        '& textarea::placeholder': {
+                          color: '#637381',
                           opacity: 1,
                         },
                       }}
+                      onChange={newProductFormik.handleChange}
+                      onBlur={newProductFormik.handleBlur}
+                      error={
+                        newProductFormik.touched.description &&
+                        Boolean(newProductFormik.errors.description)
+                      }
+                      helperText={
+                        newProductFormik.touched.description &&
+                        newProductFormik.errors.description
+                      }
                     />
                     <TextField
                       label="Fiyat"
                       name="price"
                       type="number"
                       sx={{
-                        "& textarea::placeholder": {
-                          color: "#637381",
+                        '& textarea::placeholder': {
+                          color: '#637381',
                           opacity: 1,
                         },
-                        "& input[type=number]": {
-                          MozAppearance: "textfield",
+                        '& input[type=number]': {
+                          MozAppearance: 'textfield',
                         },
-                        "& input[type=number]::-webkit-outer-spin-button": {
-                          WebkitAppearance: "none",
+                        '& input[type=number]::-webkit-outer-spin-button': {
+                          WebkitAppearance: 'none',
                           margin: 0,
                         },
-                        "& input[type=number]::-webkit-inner-spin-button": {
-                          WebkitAppearance: "none",
+                        '& input[type=number]::-webkit-inner-spin-button': {
+                          WebkitAppearance: 'none',
                           margin: 0,
                         },
                       }}
@@ -245,44 +265,54 @@ function NewCategory() {
                           ),
                         },
                       }}
+                      onChange={newProductFormik.handleChange}
+                      onBlur={newProductFormik.handleBlur}
+                      error={
+                        newProductFormik.touched.price &&
+                        Boolean(newProductFormik.errors.price)
+                      }
+                      helperText={
+                        newProductFormik.touched.price &&
+                        newProductFormik.errors.price
+                      }
                     />
                     <AutocompleteComp
                       options={branches}
                       error={
-                        newCategoryFormik.touched.branchIds &&
-                        Boolean(newCategoryFormik.errors.branchIds)
+                        newProductFormik.touched.branches &&
+                        Boolean(newProductFormik.errors.branches)
                       }
                       label="Ürünün Ekleneceği Şubeler"
                       getOptionLabel={(branch) => branch.name}
                       value={branches.filter((b) =>
-                        newCategoryFormik.values.branchIds.includes(b._id),
+                        newProductFormik.values.branches.includes(b._id),
                       )}
                       onChange={(_, newValue) => {
-                        newCategoryFormik.setFieldValue(
-                          "branchIds",
+                        newProductFormik.setFieldValue(
+                          'branches',
                           newValue.map((b) => b._id),
                         );
                       }}
                       helperText="Hangi şubelerde satılacağını seçin"
                       sx={{
-                        "& .MuiFormHelperText-root": {
-                          fontFamily: "Nunito Sans",
-                          fontWeight: "400",
-                          color: "#637381",
+                        '& .MuiFormHelperText-root': {
+                          fontFamily: 'Nunito Sans',
+                          fontWeight: '400',
+                          color: '#637381',
                         },
                       }}
                     />
 
                     <Button
                       sx={{
-                        backgroundColor: "#1C252E",
-                        color: "#ffffff",
-                        borderRadius: "8px",
-                        fontFamily: "Nunito Sans",
-                        fontWeight: "700",
-                        fontSize: "14px",
-                        textTransform: "none",
-                        "&:hover": { backgroundColor: "#1C252E99" },
+                        backgroundColor: '#1C252E',
+                        color: '#ffffff',
+                        borderRadius: '8px',
+                        fontFamily: 'Nunito Sans',
+                        fontWeight: '700',
+                        fontSize: '14px',
+                        textTransform: 'none',
+                        '&:hover': { backgroundColor: '#1C252E99' },
                       }}
                       type="submit"
                     >
@@ -299,4 +329,4 @@ function NewCategory() {
   );
 }
 
-export default NewCategory;
+export default NewProduct;

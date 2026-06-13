@@ -5,15 +5,14 @@ import {
   Paper,
   Stack,
   Typography,
-  TextField,
-} from "@mui/material";
-import FormInput from "../form-input";
-import { useNewCategoryFormik } from "../../formik/components/newcategory-formik";
-import { useEffect } from "react";
-import { useGlobalContext } from "../../context/Context";
-import BreadMenuItems from "../bread-menu-items";
-import { GetBranchesApi } from "../../api/branches-api";
-import AutocompleteComp from "../autocomplete";
+} from '@mui/material';
+import FormInput from '../form-input';
+import { useNewCategoryFormik } from '../../formik/components/newcategory-formik';
+import { useEffect } from 'react';
+import { useGlobalContext } from '../../context/Context';
+import BreadMenuItems from '../bread-menu-items';
+import { GetBranchesApi } from '../../api/branches-api';
+import AutocompleteComp from '../autocomplete';
 
 function NewCategory() {
   const { branches, setBranches, restaurantId } = useGlobalContext();
@@ -29,28 +28,28 @@ function NewCategory() {
   const newCategoryFormik = useNewCategoryFormik();
   const menuItems = [
     {
-      title: "Anasayfa",
-      path: "/dashboard/home",
+      title: 'Anasayfa',
+      path: '/dashboard/home',
     },
     {
-      title: "Kategoriler",
-      path: "/dashboard/categories/list",
+      title: 'Kategoriler',
+      path: '/dashboard/categories/list',
     },
     {
-      title: "Yeni Kategori Oluştur",
-      path: "/dashboard/categories/new",
+      title: 'Yeni Kategori Oluştur',
+      path: '/dashboard/categories/new',
     },
   ];
 
   return (
-    <Container sx={{ padding: "40px" }}>
-      <Stack sx={{ gap: "16px", flexDirection: "column" }}>
+    <Container sx={{ padding: '40px' }}>
+      <Stack sx={{ gap: '16px', flexDirection: 'column' }}>
         <Typography
           sx={{
-            fontSize: "24px",
-            fontFamily: "Nunito Sans",
+            fontSize: '24px',
+            fontFamily: 'Nunito Sans',
             fontWeight: 700,
-            color: "#1C252E",
+            color: '#1C252E',
           }}
         >
           Yeni Kategori Oluştur
@@ -60,35 +59,35 @@ function NewCategory() {
       </Stack>
       <Paper
         sx={{
-          maxWidth: "880px",
-          mx: "auto",
-          borderRadius: "8px",
-          padding: "24px",
-          mt: "40px",
+          maxWidth: '880px',
+          mx: 'auto',
+          borderRadius: '8px',
+          padding: '24px',
+          mt: '40px',
         }}
         elevation={1}
       >
         <Stack
           sx={{
-            height: "80px",
+            height: '80px',
           }}
         >
           <Typography
             sx={{
-              fontSize: "18px",
-              fontFamily: "Nunito Sans",
-              fontWeight: "400",
+              fontSize: '18px',
+              fontFamily: 'Nunito Sans',
+              fontWeight: '400',
             }}
           >
             Yeni Kategori Oluştur
           </Typography>
           <Typography
             sx={{
-              mt: "4px",
-              fontSize: "14px",
-              fontFamily: "Nunito Sans",
-              fontWeight: "400",
-              color: "#637381",
+              mt: '4px',
+              fontSize: '14px',
+              fontFamily: 'Nunito Sans',
+              fontWeight: '400',
+              color: '#637381',
             }}
           >
             Olivetta için yeni bir kategori oluşturun
@@ -96,17 +95,17 @@ function NewCategory() {
         </Stack>
         <Divider
           sx={{
-            mx: "-24px",
-            height: "1px",
-            backgroundColor: "#E5E7EB",
+            mx: '-24px',
+            height: '1px',
+            backgroundColor: '#E5E7EB',
           }}
         />
         <form onSubmit={newCategoryFormik.handleSubmit}>
           <Stack
             sx={{
-              pt: "24px",
-              height: "max-content",
-              gap: "24px",
+              pt: '24px',
+              height: 'max-content',
+              gap: '24px',
             }}
           >
             <FormInput
@@ -116,21 +115,21 @@ function NewCategory() {
               onChange={newCategoryFormik.handleChange}
               onBlur={newCategoryFormik.handleBlur}
               sx={{
-                "& .MuiFormLabel-root": {
-                  fontFamily: "Nunito Sans",
-                  fontWeight: "400",
-                  color: "#919EAB",
+                '& .MuiFormLabel-root': {
+                  fontFamily: 'Nunito Sans',
+                  fontWeight: '400',
+                  color: '#919EAB',
                 },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#1C252E",
-                  fontFamily: "Nunito Sans",
-                  fontWeight: "400",
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: '#1C252E',
+                  fontFamily: 'Nunito Sans',
+                  fontWeight: '400',
                 },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": { color: "black" },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#1C252E",
-                    borderWidth: "1px",
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': { color: 'black' },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#1C252E',
+                    borderWidth: '1px',
                   },
                 },
               }}
@@ -160,21 +159,21 @@ function NewCategory() {
               )}
               onChange={(_, newValue) => {
                 newCategoryFormik.setFieldValue(
-                  "branchIds",
+                  'branchIds',
                   newValue.map((b) => b._id),
                 );
               }}
             />
             <Button
               sx={{
-                backgroundColor: "#1C252E",
-                color: "#ffffff",
-                borderRadius: "8px",
-                fontFamily: "Nunito Sans",
-                fontWeight: "700",
-                fontSize: "14px",
-                textTransform: "none",
-                "&:hover": { backgroundColor: "#1C252E99" },
+                backgroundColor: '#1C252E',
+                color: '#ffffff',
+                borderRadius: '8px',
+                fontFamily: 'Nunito Sans',
+                fontWeight: '700',
+                fontSize: '14px',
+                textTransform: 'none',
+                '&:hover': { backgroundColor: '#1C252E99' },
               }}
               type="submit"
             >
