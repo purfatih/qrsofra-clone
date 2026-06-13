@@ -29,7 +29,7 @@ export const useNewProductFormik = () => {
       _id: '',
     },
 
-    onSubmit: async (values: ProductTypes) => {
+    onSubmit: async (values: ProductFormTypes | ProductTypes) => {
       try {
         const response = await NewProductsApi(values);
         navigate('/dashboard/products/list');

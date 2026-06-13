@@ -1,7 +1,9 @@
 import axiosInstance from './axiosInstance';
-import type { ProductTypes } from '../types';
+import type { ProductFormTypes, ProductTypes } from '../types';
 
-export const NewProductsApi = async (values: ProductTypes) => {
+export const NewProductsApi = async (
+  values: ProductFormTypes | ProductTypes,
+) => {
   try {
     const response = await axiosInstance.post('/products', values);
     return response.data;
