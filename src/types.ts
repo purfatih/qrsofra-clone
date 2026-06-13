@@ -53,5 +53,9 @@ export type CategoryTypes = {
   status?: "ACTIVE" | "PASSIVE";
   createdAt?: string;
   updatedAt?: string;
+  branches?: {
+    _id: string;
+    name: string;
+  }[];
   branchIds?: string[];
 };

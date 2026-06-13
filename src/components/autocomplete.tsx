@@ -1,4 +1,5 @@
 import { Autocomplete, Checkbox, TextField } from "@mui/material";
+import type { SxProps } from "@mui/system";
 
 type AutocompleteWrapperProps<T> = {
   options: T[];
@@ -10,6 +11,7 @@ type AutocompleteWrapperProps<T> = {
   helperText?: string | string[];
   label?: string;
   renderInput?: (params: any) => React.ReactNode;
+  sx?: SxProps;
 };
 type AutocompleteCompProps<T> = AutocompleteWrapperProps<T> & {};
 function AutocompleteComp<T>(props: AutocompleteCompProps<T>) {
@@ -22,9 +24,11 @@ function AutocompleteComp<T>(props: AutocompleteCompProps<T>) {
     error,
     helperText,
     label,
+    sx,
   } = props;
   return (
     <Autocomplete
+      sx={sx}
       multiple
       disableCloseOnSelect
       options={options}

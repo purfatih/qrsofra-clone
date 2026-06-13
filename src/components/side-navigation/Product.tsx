@@ -1,16 +1,34 @@
 import { Add } from "@mui/icons-material";
 import {
-  Breadcrumbs,
   Button,
   ButtonBase,
   Container,
+  FormControl,
+  FormLabel,
+  Menu,
+  MenuItem,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
-import CategoryTable from "../listing-table/category-table";
-import { Link, useNavigate } from "react-router-dom";
-function Category() {
-  const navigate = useNavigate();
+import { Link } from "react-router-dom";
+import ProductTable from "../listing-table/product-table";
+import BreadMenuItems from "../bread-menu-items";
+import { useState } from "react";
+
+function Product() {
+  const menuItems = [
+    {
+      title: "Anasayfa",
+      path: "/dashboard/home",
+    },
+    {
+      title: "Ürünler",
+      path: "/dashboard/products/list",
+    },
+  ];
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
   return (
     <Container sx={{ padding: "40px" }}>
       <Stack
@@ -35,33 +53,19 @@ function Category() {
               fontWeight: "700",
             }}
           >
-            Kategoriler
+            Ürünler
           </Typography>
           <Stack
             sx={{
               flexDirection: "row",
             }}
           >
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link to="/dashboard/home">
-                <ButtonBase
-                  sx={{
-                    fontSize: "14px",
-                    fontFamily: "Nunito Sans",
-                    color: "#1C252E",
-                    "&:hover": { textDecoration: "underline" },
-                  }}
-                >
-                  Anasayfa
-                </ButtonBase>
-              </Link>
-              <Typography sx={{ color: "#919EAB", fontSize: "14px" }}>
-                Kategoriler
-              </Typography>
-            </Breadcrumbs>
+            <BreadMenuItems menuItems={menuItems} />
           </Stack>
         </Stack>
-        <Button
+
+        <ButtonBase
+          onClick={(e) => setAnchorEl(e.currentTarget)}
           sx={{
             backgroundColor: "#1C252E",
             height: "36px",
@@ -71,10 +75,9 @@ function Category() {
             fontFamily: "Nunito Sans",
             fontWeight: "700",
             textTransform: "none",
+            padding: "8px",
             "&:hover": { backgroundColor: "#1C252E99" },
           }}
-          variant="contained"
-          onClick={() => navigate("/dashboard/categories/new")}
         >
           <Stack
             sx={{
@@ -92,13 +95,42 @@ function Category() {
                 fontWeight: 700,
               }}
             >
-              Yeni Kategori
+              Yeni Ürün
             </Typography>
           </Stack>
-        </Button>
+        </ButtonBase>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => setAnchorEl(null)}
+          sx={{ borderRadius: "8px" }}
+        >
+          <MenuItem
+            component={Link}
+            to={"/dashboard/products/new"}
+            sx={{
+              fontSize: "14px",
+              fontFamily: "Nunito Sans",
+              textDecoration: "none",
+            }}
+          >
+            Yeni bir ürün oluştur
+          </MenuItem>
+          <MenuItem
+            component={Link}
+            to={"/dashboard/products/new-side"}
+            sx={{
+              fontSize: "14px",
+              fontFamily: "Nunito Sans",
+              textDecoration: "none",
+            }}
+          >
+            Yeni bir yan ürün ekle
+          </MenuItem>
+        </Menu>
       </Stack>
-      <CategoryTable />
+      <ProductTable />
     </Container>
   );
 }
-export default Category;
+export default Product;

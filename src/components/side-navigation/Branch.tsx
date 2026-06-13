@@ -1,7 +1,7 @@
 import { Add } from "@mui/icons-material";
 import { Button, Container, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import BranchTable from "../../components/table/branch-table";
+import BranchTable from "../listing-table/branch-table";
 import BreadMenuItems from "../bread-menu-items";
 
 function Branch() {

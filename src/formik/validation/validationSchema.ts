@@ -45,10 +45,29 @@ const CategoryValidationSchema = Yup.object({
     "En az bir şube seçiniz, şubeniz yoksa 'Şubeler' kısmından oluşturabilirsiniz.",
   ),
 });
+const ProductValidationSchewma = Yup.object({
+  category: Yup.string()
+    .min(3, "Kategori adı en az 3 karakter olmalıdır!")
+    .required("Kategori adı boş olamaz"),
+  name: Yup.string()
+    .min(3, "Ürün adı en az 3 karakter olmalıdır!")
+    .required("Ürün adı boş olamaz"),
+  description: Yup.string()
+    .min(3, "Ürün açıklaması en az 3 karakter olmalıdır!")
+    .required("Ürün açıklaması boş olamaz"),
+  price: Yup.number()
+    .min(3, "Ürün fiyatı en az 3 karakter olmalıdır!")
+    .required("Ürün fiyatı boş olamaz"),
+  branchIds: Yup.array().min(
+    1,
+    "En az bir şube seçiniz, şubeniz yoksa 'Şubeler' kısmından oluşturabilirsiniz.",
+  ),
+});
 export {
   registerValidationSchema,
   loginValidationSchema,
   restaurantCreateValidationSchema,
   BranchValidationSchema,
   CategoryValidationSchema,
+  ProductValidationSchewma,
 };

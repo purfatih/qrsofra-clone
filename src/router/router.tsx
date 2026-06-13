@@ -14,6 +14,8 @@ import NewBranch from "../components/create/new-branch";
 import BranchEdit from "../components/edit/branch-edit";
 import NewCategory from "../components/create/new-category";
 import CategoryEdit from "../components/edit/category.edit";
+import Product from "../components/side-navigation/Product";
+import NewProduct from "../components/create/new-product";
 export const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
 
@@ -70,6 +72,22 @@ export const router = createBrowserRouter([
                 path: "categories/edit/:id",
                 element: <CategoryEdit />,
               },
+              {
+                path: "products/list",
+                element: <Product />,
+              },
+              {
+                path: "products/new",
+                element: <NewProduct />,
+              },
+              /* {
+                path: "products/new-side",
+                element: <NewSideProduct />,
+              }, */
+              /* {
+                path: "products/edit/:id",
+                element: <ProductEdit />,
+              }, */
             ],
           },
         ],

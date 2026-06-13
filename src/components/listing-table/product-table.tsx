@@ -65,19 +65,30 @@ export default function BranchTable() {
           }}
         >
           <TableRow>
-            <TableCell>Şube Adı</TableCell>
+            <TableCell>Ürün Adı</TableCell>
+            <TableCell>Kategori</TableCell>
             <TableCell>Oluşturulma Tarihi</TableCell>
             <TableCell>Güncellenme Tarihi</TableCell>
+            <TableCell>Fiyat</TableCell>
             <TableCell>Durum</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {branches?.map((branch) => (
-            <TableRow key={branch._id}>
+            <TableRow
+              key={branch._id}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#919EAB14",
+                },
+              }}
+            >
               <TableCell>{branch.name}</TableCell>
+              <TableCell>Kategori</TableCell>
               <TableCell>{branch.createdAt}</TableCell>
               <TableCell>{branch.updatedAt}</TableCell>
+              <TableCell>123</TableCell>
               <TableCell>
                 {branch.status === "ACTIVE" ? (
                   <Chip
@@ -101,6 +112,7 @@ export default function BranchTable() {
                   />
                 )}
               </TableCell>
+
               <TableCell
                 sx={{
                   display: "flex",

@@ -6,49 +6,47 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Chip,
   ButtonBase,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
+  Chip,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { GetBranchesApi } from "../../api/branches-api";
 import { useGlobalContext } from "../../context/Context";
-import { GetCategoriesApi } from "../../api/category-api";
-export default function CategoryTable() {
-  const [open, setOpen] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
-  );
-  const {
-    categories,
-    restaurantId,
-    setCategories,
-    handleCategoryDelete,
-    branches,
-  } = useGlobalContext();
+import React from "react";
+import { useNavigate } from "react-router";
+
+export default function BranchTable() {
   const navigate = useNavigate();
+  const { restaurantId, branches, handleBranchDelete, setBranches } =
+    useGlobalContext();
+  const [open, setOpen] = React.useState(false);
+  const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
+
   const handleClickOpen = (id: string) => {
-    setSelectedCategoryId(id);
+    setSelectedBranchId(id);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setSelectedCategoryId(null);
+    setSelectedBranchId(null);
   };
   useEffect(() => {
     if (!restaurantId) return;
-    const fetchCategories = async () => {
-      const data = await GetCategoriesApi(restaurantId);
-      setCategories(data.data);
+    console.log("BranchTable restaurantId:", restaurantId);
+    const fetchBranches = async () => {
+      const data = await GetBranchesApi(restaurantId);
+      console.log("Gelen branchler:", data); // ne geliyor?
+      setBranches(data);
     };
-    fetchCategories();
+    fetchBranches();
   }, [restaurantId]);
 
   return (
@@ -67,8 +65,7 @@ export default function CategoryTable() {
           }}
         >
           <TableRow>
-            <TableCell>Kategori Adı</TableCell>
-            <TableCell>Kullanılan Şubeler</TableCell>
+            <TableCell>Şube Adı</TableCell>
             <TableCell>Oluşturulma Tarihi</TableCell>
             <TableCell>Güncellenme Tarihi</TableCell>
             <TableCell>Durum</TableCell>
@@ -76,26 +73,20 @@ export default function CategoryTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {categories.map((category) => (
-            <TableRow key={category._id}>
-              <TableCell>{category.name}</TableCell>
+          {branches?.map((branch) => (
+            <TableRow
+              key={branch._id}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#919EAB14",
+                },
+              }}
+            >
+              <TableCell>{branch.name}</TableCell>
+              <TableCell>{branch.createdAt}</TableCell>
+              <TableCell>{branch.updatedAt}</TableCell>
               <TableCell>
-                <Chip
-                  label={`${category.branchIds.length} şube`}
-                  variant="filled"
-                  sx={{
-                    backgroundColor: "#22c55e29",
-                    color: "#166534",
-                    fontWeight: "700",
-                    fontSize: "12px",
-                    borderRadius: "8px",
-                  }}
-                />
-              </TableCell>
-              <TableCell>{category.createdAt}</TableCell>
-              <TableCell>{category.updatedAt}</TableCell>
-              <TableCell>
-                {category.status === "ACTIVE" ? (
+                {branch.status === "ACTIVE" ? (
                   <Chip
                     label="Aktif"
                     sx={{
@@ -137,7 +128,7 @@ export default function CategoryTable() {
                     "&:hover": { backgroundColor: "#F4F6F8" },
                   }}
                   onClick={() =>
-                    navigate(`/dashboard/categories/edit/${category._id}`)
+                    navigate(`/dashboard/branches/edit/${branch._id}`)
                   }
                 >
                   <EditIcon
@@ -156,7 +147,7 @@ export default function CategoryTable() {
                     height: "32px",
                     "&:hover": { backgroundColor: "#FF563014" },
                   }}
-                  onClick={() => handleClickOpen(category._id)}
+                  onClick={() => handleClickOpen(branch._id)}
                 >
                   <DeleteIcon
                     sx={{
@@ -181,10 +172,10 @@ export default function CategoryTable() {
               },
             }}
           >
-            <DialogTitle id="alert-dialog-title">Kategoriyi Sil</DialogTitle>
+            <DialogTitle id="alert-dialog-title">Şubeyi Sil</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Kategoriyi silmek istediğinizden emin misiniz?
+                Şubeyi silmek istediğinizden emin misiniz?
               </DialogContentText>
             </DialogContent>
             <DialogActions
@@ -209,7 +200,7 @@ export default function CategoryTable() {
                 onClick={async (e) => {
                   const button = e.currentTarget;
                   button.disabled = true;
-                  await handleCategoryDelete(selectedCategoryId!);
+                  await handleBranchDelete(selectedBranchId!);
                   handleClose();
                 }}
                 autoFocus
