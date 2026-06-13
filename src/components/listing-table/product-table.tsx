@@ -21,17 +21,12 @@ import { useGlobalContext } from '../../context/Context';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { GetProductsApi } from '../../api/products-api';
-import type { CategoryTypes, ProductTypes } from '../../types';
+import type { ProductTypes } from '../../types';
 
 export default function ProductTable() {
   const navigate = useNavigate();
-  const {
-    restaurantId,
-    products,
-    handleProductDelete,
-    setProducts,
-    categories,
-  } = useGlobalContext();
+  const { restaurantId, products, handleProductDelete, setProducts } =
+    useGlobalContext();
   const [open, setOpen] = React.useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null,
@@ -93,21 +88,16 @@ export default function ProductTable() {
             >
               <TableCell>{product?.name}</TableCell>
               <TableCell>
-                <Chip
-                  label={product?.categories
-                    .map((item: CategoryTypes) => item.name)
-                    .join(', ')}
-                  variant="filled"
-                  sx={{
-                    backgroundColor: '#22c55e29',
-                    color: '#166534',
-                    fontWeight: '700',
-                    borderRadius: '8px',
-                  }}
-                />
+                {product?.categories?.map((c) => (
+                  <Chip key={c._id} label={c.name} />
+                ))}
               </TableCell>
-              <TableCell>{product?.createdAt}</TableCell>
-              <TableCell>{product?.updatedAt}</TableCell>
+              <TableCell>
+                {new Date(product?.createdAt).toLocaleString()}
+              </TableCell>
+              <TableCell>
+                {new Date(product?.updatedAt).toLocaleDateString()}
+              </TableCell>
               <TableCell>₺{product?.price}</TableCell>
               <TableCell>
                 {product?.status === 'ACTIVE' ? (

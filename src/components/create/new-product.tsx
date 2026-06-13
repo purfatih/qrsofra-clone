@@ -18,11 +18,18 @@ import { GetBranchesApi } from '../../api/branches-api';
 import AutocompleteComp from '../autocomplete';
 import { useNewProductFormik } from '../../formik/components/newproduct-formik';
 import { GetCategoriesApi } from '../../api/category-api';
-import type { CategoryTypes } from '../../types';
+import type { BranchTypes, CategoryTypes } from '../../types';
+import { GetProductsApi } from '../../api/products-api';
 
 function NewProduct() {
-  const { branches, setBranches, restaurantId, categories, setCategories } =
-    useGlobalContext();
+  const {
+    branches,
+    setBranches,
+    restaurantId,
+    categories,
+    setCategories,
+    setProducts,
+  } = useGlobalContext();
   useEffect(() => {
     const fetchRestaurants = async () => {
       if (restaurantId) {
@@ -30,6 +37,8 @@ function NewProduct() {
         setBranches(dataBranch);
         const dataCategory = await GetCategoriesApi(restaurantId);
         setCategories(dataCategory.data);
+        const dataProduct = await GetProductsApi(restaurantId);
+        setProducts(dataProduct.data);
       }
     };
 
@@ -160,17 +169,15 @@ function NewProduct() {
                       }
                       helperText={
                         newProductFormik.touched.categories &&
-                        newProductFormik.errors.categories
+                        (newProductFormik.errors.categories as string[]).join(
+                          ', ',
+                        )
                       }
                       label="Ürün Kategorisi"
                       getOptionLabel={(category) => category.name}
-                      value={
-                        categories?.filter((c: CategoryTypes) =>
-                          newProductFormik.values.categories?.includes(
-                            c._id || '',
-                          ),
-                        ) ?? []
-                      }
+                      value={(categories ?? []).filter((c: CategoryTypes) =>
+                        newProductFormik.values.categories.includes(c._id!),
+                      )}
                       onChange={(_, newValue) => {
                         newProductFormik.setFieldValue(
                           'categories',
@@ -178,6 +185,7 @@ function NewProduct() {
                         );
                       }}
                     />
+
                     <FormInput
                       label="Ürün Adı"
                       name="name"
@@ -279,18 +287,18 @@ function NewProduct() {
                     <AutocompleteComp
                       options={branches}
                       error={
-                        newProductFormik.touched.branches &&
-                        Boolean(newProductFormik.errors.branches)
+                        newProductFormik.touched.products &&
+                        Boolean(newProductFormik.errors.products)
                       }
                       label="Ürünün Ekleneceği Şubeler"
                       getOptionLabel={(branch) => branch.name}
-                      value={branches.filter((b) =>
-                        newProductFormik.values.branches.includes(b._id),
+                      value={branches?.filter((p: BranchTypes) =>
+                        newProductFormik.values.branches.includes(p._id!),
                       )}
                       onChange={(_, newValue) => {
                         newProductFormik.setFieldValue(
                           'branches',
-                          newValue.map((b) => b._id),
+                          newValue.map((p) => p._id),
                         );
                       }}
                       helperText="Hangi şubelerde satılacağını seçin"

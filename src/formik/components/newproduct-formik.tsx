@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { ProductValidationSchewma } from '../validation/validationSchema';
-import type { ProductTypes } from '../../types';
+import type { ProductFormTypes, ProductTypes } from '../../types';
 import { useNavigate } from 'react-router';
 import { useGlobalContext } from '../../context/Context';
 import { NewProductsApi } from '../../api/products-api';
@@ -8,7 +8,7 @@ import { NewProductsApi } from '../../api/products-api';
 export const useNewProductFormik = () => {
   const { restaurantId, setProducts } = useGlobalContext();
   const navigate = useNavigate();
-  const newProductFormik = useFormik<ProductTypes>({
+  const newProductFormik = useFormik<ProductFormTypes>({
     enableReinitialize: true,
     initialValues: {
       name: '',
@@ -19,8 +19,14 @@ export const useNewProductFormik = () => {
       status: 'ACTIVE',
       description: '',
       price: 0,
+      images: [],
+      products: [],
+      userId: '',
+      createdAt: '',
+      updatedAt: '',
       image: '',
       imageFile: null,
+      _id: '',
     },
 
     onSubmit: async (values: ProductTypes) => {
