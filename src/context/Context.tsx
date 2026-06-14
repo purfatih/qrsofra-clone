@@ -4,11 +4,12 @@ import {
   useEffect,
   useState,
   type ReactNode,
-} from 'react';
-import type { CategoryTypes, BranchTypes, ProductTypes } from '../types';
-import { GetRestaurantApi } from '../api/restaurant-api';
-import { DeleteCategoryApi } from '../api/category-api';
-import { DeleteProductApi } from '../api/products-api';
+} from "react";
+import type { CategoryTypes, BranchTypes, ProductTypes } from "../types";
+import { GetRestaurantApi } from "../api/restaurant-api";
+import { DeleteCategoryApi } from "../api/category-api";
+import { DeleteProductApi } from "../api/products-api";
+import { DeleteBranchApi } from "../api/branches-api";
 type ErrorResponseDataType = {
   success: boolean | null;
   message: string;
@@ -20,7 +21,7 @@ type Restaurant = {
   description?: string;
   instagramName?: string;
   currencies?: string[];
-  status?: 'ACTIVE' | 'PASSIVE';
+  status?: "ACTIVE" | "PASSIVE";
   user?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -60,25 +61,26 @@ export function ContextProvider({ children }: { children: ReactNode }) {
   const [loginErrorResponseData, setLoginErrorResponseData] =
     useState<ErrorResponseDataType>({
       success: null,
-      message: '',
+      message: "",
     });
   const [showRestaurantData, setShowRestaurantData] = useState<Restaurant[]>(
     [],
   );
-  const [uploadLogo, setUpLoadLogo] = useState('');
+  const [uploadLogo, setUpLoadLogo] = useState("");
   const [newBranchData, setNewBranchData] = useState<BranchTypes[]>([]);
-  const [restaurantId, setRestaurantId] = useState('');
+  const [restaurantId, setRestaurantId] = useState("");
   const [branches, setBranches] = useState<BranchTypes[]>([]);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [products, setProducts] = useState<ProductTypes[]>([]);
+
   const handleProductDelete = async (id: string) => {
     try {
       setDeletingId(id);
       setProducts((prev) => prev.filter((product) => product._id !== id));
       await DeleteProductApi(id);
     } catch (error) {
-      console.error('Silme hatası:', error);
+      console.error("Silme hatası:", error);
       setProducts((prev) => prev);
     } finally {
       setDeletingId(null);
@@ -90,7 +92,7 @@ export function ContextProvider({ children }: { children: ReactNode }) {
       setCategories((prev) => prev.filter((category) => category._id !== id));
       await DeleteCategoryApi(id);
     } catch (error) {
-      console.error('Silme hatası:', error);
+      console.error("Silme hatası:", error);
       setCategories((prev) => prev);
     } finally {
       setDeletingId(null);
@@ -100,20 +102,20 @@ export function ContextProvider({ children }: { children: ReactNode }) {
     try {
       setDeletingId(id);
       setBranches((prev) => prev.filter((branch) => branch._id !== id));
-      await DeleteCategoryApi(id);
+      await DeleteBranchApi(id);
     } catch (error) {
-      console.error('Silme hatası:', error);
+      console.error("Silme hatası:", error);
       setBranches((prev) => prev);
     } finally {
       setDeletingId(null);
     }
   };
   const fetchRestaurants = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) return;
     const data = await GetRestaurantApi();
     setShowRestaurantData(data.data);
-    setRestaurantId(data.data[0]?._id ?? '');
+    setRestaurantId(data.data[0]?._id ?? "");
   };
   useEffect(() => {
     fetchRestaurants();
@@ -153,7 +155,7 @@ export function ContextProvider({ children }: { children: ReactNode }) {
 export const useGlobalContext = () => {
   const context = useContext(Context);
   if (!context) {
-    throw new Error('useGlobalContext must be used within a ContextProvider');
+    throw new Error("useGlobalContext must be used within a ContextProvider");
   }
   return context;
 };

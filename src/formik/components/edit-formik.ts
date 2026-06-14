@@ -45,6 +45,8 @@ export const useCategoryEditFormik = (id?: string) => {
       branchIds: category?.branchIds || [],
       restaurantId: category?.restaurantId || "",
       status: category?.status || "ACTIVE",
+      image: "",
+      branches: category?.branches || [],
     },
 
     onSubmit: async (values: CategoryTypes) => {

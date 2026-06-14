@@ -15,6 +15,7 @@ import {
   DialogActions,
   Tooltip,
   Stack,
+  Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -88,29 +89,97 @@ export default function CategoryTable() {
                 <Tooltip
                   title={
                     <Stack direction="column">
-                      <strong>Şubeler: </strong>
-                      <br />
                       {category?.branches?.map((b) => (
                         <span key={b._id}>{b.name}</span>
                       ))}
                     </Stack>
                   }
                 >
-                  <Chip
-                    label={`${category.branchIds?.length} şube`}
-                    variant="filled"
-                    sx={{
-                      backgroundColor: "#22c55e29",
-                      color: "#166534",
-                      fontWeight: "700",
-                      fontSize: "12px",
-                      borderRadius: "8px",
-                    }}
-                  />
+                  {category?.branches?.length === 1 ? (
+                    <Chip
+                      label={category?.branches[0]?.name}
+                      variant="filled"
+                      sx={{
+                        backgroundColor: "#22c55e29",
+                        color: "#166534",
+                        fontWeight: "700",
+                        fontSize: "12px",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  ) : (
+                    <Chip
+                      label={`${category?.branchIds?.length} şube`}
+                      variant="filled"
+                      sx={{
+                        backgroundColor: "#22c55e29",
+                        color: "#166534",
+                        fontWeight: "700",
+                        fontSize: "12px",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  )}
                 </Tooltip>
               </TableCell>
-              <TableCell>{category.createdAt}</TableCell>
-              <TableCell>{category.updatedAt}</TableCell>
+              <TableCell>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito Sans",
+                  }}
+                >
+                  {new Date(category?.createdAt).toLocaleDateString("tr-TR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito Sans",
+                    color: "#637681",
+                  }}
+                >
+                  {new Date(category?.createdAt).toLocaleTimeString("tr-TR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito Sans",
+                  }}
+                >
+                  {new Date(category?.updatedAt).toLocaleDateString("tr-TR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito Sans",
+                    color: "#637681",
+                  }}
+                >
+                  {new Date(category?.updatedAt).toLocaleTimeString("tr-TR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Typography>
+              </TableCell>
+
               <TableCell>
                 {category.status === "ACTIVE" ? (
                   <Chip
@@ -134,53 +203,55 @@ export default function CategoryTable() {
                   />
                 )}
               </TableCell>
-              <TableCell
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-end",
-                  justifyContent: "flex-end",
-                  gap: "8px",
-                }}
-              >
-                <ButtonBase
+              <TableCell>
+                <Stack
                   sx={{
-                    borderRadius: "50%",
                     display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "32px",
-                    height: "32px",
-                    "&:hover": { backgroundColor: "#F4F6F8" },
+                    flexDirection: "row",
+                    alignItems: "flex-end",
+                    justifyContent: "flex-end",
+                    gap: "8px",
                   }}
-                  onClick={() =>
-                    navigate(`/dashboard/categories/edit/${category._id}`)
-                  }
                 >
-                  <EditIcon
+                  <ButtonBase
                     sx={{
-                      color: "#637381",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "32px",
+                      height: "32px",
+                      "&:hover": { backgroundColor: "#F4F6F8" },
                     }}
-                  />
-                </ButtonBase>
-                <ButtonBase
-                  sx={{
-                    borderRadius: "50%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "32px",
-                    height: "32px",
-                    "&:hover": { backgroundColor: "#FF563014" },
-                  }}
-                  onClick={() => handleClickOpen(category._id)}
-                >
-                  <DeleteIcon
+                    onClick={() =>
+                      navigate(`/dashboard/categories/edit/${category._id}`)
+                    }
+                  >
+                    <EditIcon
+                      sx={{
+                        color: "#637381",
+                      }}
+                    />
+                  </ButtonBase>
+                  <ButtonBase
                     sx={{
-                      color: "#FF5630",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "32px",
+                      height: "32px",
+                      "&:hover": { backgroundColor: "#FF563014" },
                     }}
-                  />
-                </ButtonBase>
+                    onClick={() => handleClickOpen(category._id)}
+                  >
+                    <DeleteIcon
+                      sx={{
+                        color: "#FF5630",
+                      }}
+                    />
+                  </ButtonBase>
+                </Stack>
               </TableCell>
             </TableRow>
           ))}

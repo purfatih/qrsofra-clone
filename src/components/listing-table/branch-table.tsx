@@ -13,6 +13,8 @@ import {
   DialogContentText,
   DialogActions,
   Chip,
+  Typography,
+  Stack,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -83,8 +85,63 @@ export default function BranchTable() {
               }}
             >
               <TableCell>{branch.name}</TableCell>
-              <TableCell>{branch.createdAt}</TableCell>
-              <TableCell>{branch.updatedAt}</TableCell>
+              <TableCell>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito Sans",
+                  }}
+                >
+                  {new Date(branch?.createdAt).toLocaleDateString("tr-TR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito Sans",
+                    color: "#637681",
+                  }}
+                >
+                  {new Date(branch?.createdAt).toLocaleTimeString("tr-TR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito Sans",
+                  }}
+                >
+                  {new Date(branch?.updatedAt).toLocaleDateString("tr-TR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito Sans",
+                    color: "#637681",
+                  }}
+                >
+                  {new Date(branch?.updatedAt).toLocaleTimeString("tr-TR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Typography>
+              </TableCell>
               <TableCell>
                 {branch.status === "ACTIVE" ? (
                   <Chip
@@ -108,53 +165,55 @@ export default function BranchTable() {
                   />
                 )}
               </TableCell>
-              <TableCell
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-end",
-                  justifyContent: "flex-end",
-                  gap: "8px",
-                }}
-              >
-                <ButtonBase
+              <TableCell>
+                <Stack
                   sx={{
-                    borderRadius: "50%",
                     display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "32px",
-                    height: "32px",
-                    "&:hover": { backgroundColor: "#F4F6F8" },
+                    flexDirection: "row",
+                    alignItems: "flex-end",
+                    justifyContent: "flex-end",
+                    gap: "8px",
                   }}
-                  onClick={() =>
-                    navigate(`/dashboard/branches/edit/${branch._id}`)
-                  }
                 >
-                  <EditIcon
+                  <ButtonBase
                     sx={{
-                      color: "#637381",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "32px",
+                      height: "32px",
+                      "&:hover": { backgroundColor: "#F4F6F8" },
                     }}
-                  />
-                </ButtonBase>
-                <ButtonBase
-                  sx={{
-                    borderRadius: "50%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "32px",
-                    height: "32px",
-                    "&:hover": { backgroundColor: "#FF563014" },
-                  }}
-                  onClick={() => handleClickOpen(branch._id)}
-                >
-                  <DeleteIcon
+                    onClick={() =>
+                      navigate(`/dashboard/branches/edit/${branch._id}`)
+                    }
+                  >
+                    <EditIcon
+                      sx={{
+                        color: "#637381",
+                      }}
+                    />
+                  </ButtonBase>
+                  <ButtonBase
                     sx={{
-                      color: "#FF5630",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "32px",
+                      height: "32px",
+                      "&:hover": { backgroundColor: "#FF563014" },
                     }}
-                  />
-                </ButtonBase>
+                    onClick={() => handleClickOpen(branch._id)}
+                  >
+                    <DeleteIcon
+                      sx={{
+                        color: "#FF5630",
+                      }}
+                    />
+                  </ButtonBase>
+                </Stack>
               </TableCell>
             </TableRow>
           ))}

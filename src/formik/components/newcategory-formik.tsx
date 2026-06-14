@@ -1,9 +1,9 @@
-import { useFormik } from 'formik';
-import { CategoryValidationSchema } from '../validation/validationSchema';
-import { newCategoryApi } from '../../api/category-api';
-import type { CategoryTypes } from '../../types';
-import { useNavigate } from 'react-router';
-import { useGlobalContext } from '../../context/Context';
+import { useFormik } from "formik";
+import { CategoryValidationSchema } from "../validation/validationSchema";
+import { newCategoryApi } from "../../api/category-api";
+import type { CategoryTypes } from "../../types";
+import { useNavigate } from "react-router";
+import { useGlobalContext } from "../../context/Context";
 
 export const useNewCategoryFormik = () => {
   const { restaurantId } = useGlobalContext();
@@ -11,20 +11,22 @@ export const useNewCategoryFormik = () => {
   const newCategoryFormik = useFormik<CategoryTypes>({
     enableReinitialize: true,
     initialValues: {
-      name: '',
+      name: "",
       branchIds: [],
       restaurantId: restaurantId,
-      status: 'ACTIVE',
+      status: "ACTIVE",
+      image: "",
+      branches: [],
     },
 
     onSubmit: async (values: CategoryTypes) => {
       try {
         const response = await newCategoryApi(values);
-        navigate('/dashboard/categories/list');
+        navigate("/dashboard/categories/list");
         return response;
       } catch (error: any) {
-        console.error('Error response:', error.response);
-        console.error('Error message:', error.message);
+        console.error("Error response:", error.response);
+        console.error("Error message:", error.message);
         throw error;
       }
     },
