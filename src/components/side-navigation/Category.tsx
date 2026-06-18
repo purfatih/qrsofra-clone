@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import CategoryTable from "../listing-table/category-table";
+import CategoryTable from "../listing/category-table";
 import { Link, useNavigate } from "react-router-dom";
 function Category() {
   const navigate = useNavigate();

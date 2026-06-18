@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import ProductTable from "../listing-table/product-table";
+import ProductTable from "../listing/product-table";
 import BreadMenuItems from "../bread-menu-items";
 import { useState } from "react";
 import { useStateContext } from "../../context/state/state-context";
