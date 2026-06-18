@@ -13,9 +13,10 @@ import Category from "../components/side-navigation/Category";
 import NewBranch from "../components/create/new-branch";
 import BranchEdit from "../components/edit/branch-edit";
 import NewCategory from "../components/create/new-category";
-import CategoryEdit from "../components/edit/category.edit";
+import CategoryEdit from "../components/edit/category-edit";
 import Product from "../components/side-navigation/Product";
 import NewProduct from "../components/create/new-product";
+import ProductEdit from "../components/edit/product-edit";
 export const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
 
@@ -80,14 +81,7 @@ export const router = createBrowserRouter([
                 path: "products/new",
                 element: <NewProduct />,
               },
-              /* {
-                path: "products/new-side",
-                element: <NewSideProduct />,
-              }, */
-              /* {
-                path: "products/edit/:id",
-                element: <ProductEdit />,
-              }, */
+              { path: "products/edit/:id", element: <ProductEdit /> },
             ],
           },
         ],

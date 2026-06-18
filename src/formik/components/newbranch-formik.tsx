@@ -2,12 +2,12 @@ import { useFormik } from "formik";
 import { BranchValidationSchema } from "../validation/validationSchema";
 import { newBranchesApi } from "../../api/branches-api";
 import type { BranchTypes } from "../../types";
-import { useGlobalContext } from "../../context/Context";
+import { useDataContext } from "../../context/data/data-context";
 import { useNavigate } from "react-router";
 
 export const useNewBranchFormik = () => {
   const navigate = useNavigate();
-  const { restaurantId } = useGlobalContext();
+  const { restaurantId } = useDataContext();
   const newBranchFormik = useFormik<BranchTypes>({
     enableReinitialize: true,
     initialValues: {

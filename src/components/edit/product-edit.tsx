@@ -18,14 +18,15 @@ import { useEffect, useState } from "react";
 import BreadMenuItems from "../bread-menu-items";
 import { GetBranchesApi } from "../../api/branches-api";
 import AutocompleteComp from "../autocomplete";
-import { useNewProductFormik } from "../../formik/components/newproduct-formik";
+import { useProductEditFormik } from "../../formik/components/edit-formik";
 import { GetCategoriesApi } from "../../api/category-api";
-import type { BranchTypes, CategoryTypes } from "../../types";
+import type { BranchTypes, CategoryTypes, ProductFormTypes } from "../../types";
 import { GetProductsApi, UploadProductImageApi } from "../../api/products-api";
 import uploadImg from "../../assets/images/upload.png";
 import { Upload } from "@mui/icons-material";
+import { useParams } from "react-router";
 import { useDataContext } from "../../context/data/data-context";
-function NewProduct() {
+function ProductEdit() {
   const {
     branches,
     setBranches,
@@ -33,6 +34,7 @@ function NewProduct() {
     categories,
     setCategories,
     setProducts,
+    products,
   } = useDataContext();
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -48,7 +50,13 @@ function NewProduct() {
 
     fetchRestaurants();
   }, [restaurantId]);
-  const newProductFormik = useNewProductFormik();
+  const { id } = useParams();
+  const productEditFormik = useProductEditFormik(id);
+  const product = products?.find(
+    (item) => item._id === productEditFormik.values._id,
+  );
+  console.log("product branches:", product?.branches);
+
   const menuItems = [
     {
       title: "Anasayfa",
@@ -59,11 +67,14 @@ function NewProduct() {
       path: "/dashboard/products/list",
     },
     {
-      title: "Yeni Ürün",
-      path: "/dashboard/products/new",
+      title: "Ürünü Düzenle",
+      path: `/dashboard/products/edit/${product?._id}`,
     },
   ];
   const [open, setOpen] = useState(false);
+
+  console.log("products", products);
+
   return (
     <Container sx={{ padding: "40px" }}>
       <Typography
@@ -74,11 +85,11 @@ function NewProduct() {
           color: "#1C252E",
         }}
       >
-        Yeni Ürün Oluştur
+        Ürünü Düzenle
       </Typography>
 
       <BreadMenuItems menuItems={menuItems} />
-      <form onSubmit={newProductFormik.handleSubmit}>
+      <form onSubmit={productEditFormik.handleSubmit}>
         <Grid container>
           <Stack
             sx={{
@@ -135,8 +146,8 @@ function NewProduct() {
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (!file) return;
-                          newProductFormik.setFieldValue("imageFile", file);
-                          newProductFormik.setFieldValue(
+                          productEditFormik.setFieldValue("imageFile", file);
+                          productEditFormik.setFieldValue(
                             "image",
                             URL.createObjectURL(file),
                           );
@@ -166,11 +177,11 @@ function NewProduct() {
                     </Stack>
                   </Box>
                 </label>
-                {newProductFormik.values.image && (
+                {productEditFormik.values.image && (
                   <>
                     <Box
                       component="img"
-                      src={newProductFormik.values.image}
+                      src={productEditFormik.values.image}
                       alt="Product Image"
                       sx={{
                         bgcolor: "#1C252E1A",
@@ -186,13 +197,13 @@ function NewProduct() {
                     <ButtonBase
                       onClick={async (e) => {
                         e.preventDefault();
-                        if (!newProductFormik.values.imageFile) return;
+                        if (!productEditFormik.values.imageFile) return;
                         const logoResponse = await UploadProductImageApi(
-                          newProductFormik.values.imageFile,
+                          productEditFormik.values.imageFile,
                         );
                         const logoUrl = `http://localhost:8080/uploads/${logoResponse.data}`;
                         setOpen(true);
-                        newProductFormik.setFieldValue("images", [logoUrl]);
+                        productEditFormik.setFieldValue("images", [logoUrl]);
                       }}
                       sx={{
                         objectFit: "cover",
@@ -282,25 +293,29 @@ function NewProduct() {
                     }}
                   >
                     <AutocompleteComp
-                      noOptionText="Kategori Bulunamadı"
+                      noOptionText="Kategori bulunamadı"
                       options={categories}
                       error={
-                        newProductFormik.touched.categories &&
-                        Boolean(newProductFormik.errors.categories)
+                        productEditFormik.touched.categories &&
+                        Boolean(productEditFormik.errors.categories)
                       }
                       helperText={
-                        newProductFormik.touched.categories &&
-                        newProductFormik.errors.categories
+                        productEditFormik.touched.categories &&
+                        productEditFormik.errors.categories
                       }
                       label="Ürün Kategorisi"
-                      getOptionLabel={(category) => category.name}
-                      value={(categories ?? []).filter((c: CategoryTypes) =>
-                        newProductFormik.values.categories.includes(c._id!),
+                      getOptionLabel={(category: CategoryTypes) =>
+                        category.name
+                      }
+                      value={categories.filter((category: CategoryTypes) =>
+                        productEditFormik.values.categories?.includes(
+                          category._id!,
+                        ),
                       )}
                       onChange={(_, newValue) => {
-                        newProductFormik.setFieldValue(
+                        productEditFormik.setFieldValue(
                           "categories",
-                          newValue.map((c) => c._id),
+                          newValue.map((c: CategoryTypes) => c._id),
                         );
                       }}
                     />
@@ -308,9 +323,14 @@ function NewProduct() {
                     <FormInput
                       label="Ürün Adı"
                       name="name"
-                      value={newProductFormik.values.name}
-                      onChange={newProductFormik.handleChange}
-                      onBlur={newProductFormik.handleBlur}
+                      value={productEditFormik.values.name}
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
+                      onChange={productEditFormik.handleChange}
+                      onBlur={productEditFormik.handleBlur}
                       sx={{
                         "& .MuiFormLabel-root": {
                           fontFamily: "Nunito Sans",
@@ -331,35 +351,41 @@ function NewProduct() {
                         },
                       }}
                       error={
-                        newProductFormik.touched.name &&
-                        Boolean(newProductFormik.errors.name)
+                        productEditFormik.touched.name &&
+                        Boolean(productEditFormik.errors.name)
                       }
                       helperText={
-                        newProductFormik.touched.name &&
-                        newProductFormik.errors.name
+                        productEditFormik.touched.name &&
+                        productEditFormik.errors.name
                       }
                     />
                     <TextField
+                      label="Ürün Açıklaması"
                       multiline
                       minRows={4}
                       name="description"
-                      placeholder="Ürün Açıklaması"
                       sx={{
                         "& textarea::placeholder": {
                           color: "#637381",
                           opacity: 1,
                         },
                       }}
-                      onChange={newProductFormik.handleChange}
-                      onBlur={newProductFormik.handleBlur}
+                      value={productEditFormik.values.description}
+                      onChange={productEditFormik.handleChange}
+                      onBlur={productEditFormik.handleBlur}
                       error={
-                        newProductFormik.touched.description &&
-                        Boolean(newProductFormik.errors.description)
+                        productEditFormik.touched.description &&
+                        Boolean(productEditFormik.errors.description)
                       }
                       helperText={
-                        newProductFormik.touched.description &&
-                        newProductFormik.errors.description
+                        productEditFormik.touched.description &&
+                        productEditFormik.errors.description
                       }
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
                     />
                     <TextField
                       label="Fiyat"
@@ -392,39 +418,37 @@ function NewProduct() {
                           ),
                         },
                       }}
-                      onChange={newProductFormik.handleChange}
-                      onBlur={newProductFormik.handleBlur}
+                      onChange={productEditFormik.handleChange}
+                      onBlur={productEditFormik.handleBlur}
                       error={
-                        newProductFormik.touched.price &&
-                        Boolean(newProductFormik.errors.price)
+                        productEditFormik.touched.price &&
+                        Boolean(productEditFormik.errors.price)
                       }
                       helperText={
-                        newProductFormik.touched.price &&
-                        newProductFormik.errors.price
+                        productEditFormik.touched.price &&
+                        productEditFormik.errors.price
                       }
+                      value={productEditFormik.values.price}
                     />
                     <AutocompleteComp
                       noOptionText="Şube bulunamadı"
                       options={branches}
                       error={
-                        newProductFormik.touched.branches &&
-                        Boolean(newProductFormik.errors.branches)
+                        productEditFormik.touched.branches &&
+                        Boolean(productEditFormik.errors.branches)
                       }
                       label="Ürünün Ekleneceği Şubeler"
                       getOptionLabel={(branch) => branch.name}
                       value={branches?.filter((p: BranchTypes) =>
-                        newProductFormik.values.branches.includes(p._id!),
+                        productEditFormik.values.branches.includes(p._id!),
                       )}
                       onChange={(_, newValue) => {
-                        newProductFormik.setFieldValue(
+                        productEditFormik.setFieldValue(
                           "branches",
                           newValue.map((p) => p._id),
                         );
                       }}
-                      helperText={
-                        newProductFormik.touched.branches &&
-                        newProductFormik.errors.branches
-                      }
+                      helperText="Hangi şubelerde satılacağını seçin"
                       sx={{
                         "& .MuiFormHelperText-root": {
                           fontFamily: "Nunito Sans",
@@ -460,4 +484,4 @@ function NewProduct() {
   );
 }
 
-export default NewProduct;
+export default ProductEdit;

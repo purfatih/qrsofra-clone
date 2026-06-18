@@ -20,14 +20,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import { GetBranchesApi } from "../../api/branches-api";
-import { useGlobalContext } from "../../context/Context";
 import React from "react";
 import { useNavigate } from "react-router";
+import { useDataContext } from "../../context/data/data-context";
+import { useEventContext } from "../../context/func-event/event-context";
 
 export default function BranchTable() {
   const navigate = useNavigate();
-  const { restaurantId, branches, handleBranchDelete, setBranches } =
-    useGlobalContext();
+  const { restaurantId, branches, setBranches } = useDataContext();
+  const { handleBranchDelete } = useEventContext();
   const [open, setOpen] = React.useState(false);
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
 
@@ -42,10 +43,8 @@ export default function BranchTable() {
   };
   useEffect(() => {
     if (!restaurantId) return;
-    console.log("BranchTable restaurantId:", restaurantId);
     const fetchBranches = async () => {
       const data = await GetBranchesApi(restaurantId);
-      console.log("Gelen branchler:", data); // ne geliyor?
       setBranches(data);
     };
     fetchBranches();

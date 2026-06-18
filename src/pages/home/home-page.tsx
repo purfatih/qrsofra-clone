@@ -1,10 +1,23 @@
 import { Outlet } from "react-router-dom";
 import HomepageSidebar from "../../components/sidebar/homepage-sidebar";
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
+import RestaurantSwitch from "../restaurant/restaurant-switch";
 function HomePage() {
   return (
     <Stack direction="row">
       <HomepageSidebar />
+      <Box
+        sx={{
+          display: "inline-block",
+          py: "24px",
+          px: "24px",
+          width: "fit-content",
+          height: "fit-content",
+          borderRadius: "12px",
+        }}
+      >
+        <RestaurantSwitch />
+      </Box>
       <Outlet />
     </Stack>
   );

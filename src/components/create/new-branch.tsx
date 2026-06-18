@@ -10,11 +10,11 @@ import FormInput from "../form-input";
 import { useNewBranchFormik } from "../../formik/components/newbranch-formik";
 import { useEffect } from "react";
 import { GetRestaurantApi } from "../../api/restaurant-api";
-import { useGlobalContext } from "../../context/Context";
+import { useDataContext } from "../../context/data/data-context";
 import BreadMenuItems from "../bread-menu-items";
 
 function NewBranch() {
-  const { setShowRestaurantData, setRestaurantId } = useGlobalContext();
+  const { setShowRestaurantData, setRestaurantId } = useDataContext();
   useEffect(() => {
     const fetchRestaurant = async () => {
       const data = await GetRestaurantApi();

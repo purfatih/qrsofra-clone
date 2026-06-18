@@ -8,9 +8,8 @@ export const RegisterApi = async (values: RegisterTypes) => {
 
     return response.data;
   } catch (error: any) {
-    // Hata detaylarını logla
     console.error("Error response:", error.response);
     console.error("Error message:", error.message);
-    throw error; // Hatanın üst katmanlara iletilmesini sağla
+    throw error;
   }
 };

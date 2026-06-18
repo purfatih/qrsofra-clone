@@ -12,15 +12,15 @@ import { VisibilityOff } from "@mui/icons-material";
 
 import ReportIcon from "@mui/icons-material/Report";
 import { useState } from "react";
-import { useGlobalContext } from "../../context/Context";
 import { useNavigate } from "react-router";
 import { useLoginFormik } from "../../formik/components/signin-formik";
+import { useStateContext } from "../../context/state/state-context";
 
 function LoginForm() {
   const formik = useLoginFormik();
   const [showPassword, setShowPassword] = useState(false);
   const { loginErrorResponseData, setLoginErrorResponseData } =
-    useGlobalContext();
+    useStateContext();
   const navigate = useNavigate();
   console.log(loginErrorResponseData);
   return (

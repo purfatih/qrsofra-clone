@@ -2,12 +2,7 @@ import {
   Button,
   Container,
   Divider,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Paper,
-  Radio,
-  RadioGroup,
   Stack,
   TextField,
   Typography,
@@ -16,15 +11,14 @@ import FormInput from "../form-input";
 import { useParams } from "react-router";
 import BreadMenuItems from "../bread-menu-items";
 import { useCategoryEditFormik } from "../../formik/components/edit-formik";
-import { useGlobalContext } from "../../context/Context";
 import AutocompleteComp from "../autocomplete";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { GetBranchesApi } from "../../api/branches-api";
-import { GetCategoriesApi } from "../../api/category-api";
+import { useDataContext } from "../../context/data/data-context";
 
 function CategoryEdit() {
   const { id } = useParams();
-  const { branches, setBranches, restaurantId } = useGlobalContext();
+  const { branches, setBranches, restaurantId } = useDataContext();
 
   const editCategoryFormik = useCategoryEditFormik(id as string);
   const menuItems = [
@@ -173,17 +167,10 @@ function CategoryEdit() {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label={
-                    <Typography
-                      sx={{
-                        fontFamily: "Nunito Sans",
-                        fontWeight: "400",
-                        color: "#1C252E",
-                      }}
-                    >
-                      Kategorinin Ekleneceği Şubeler
-                    </Typography>
-                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  label={"Kategorinin Ekleneceği Şubeler"}
                 />
               )}
               error={
@@ -194,6 +181,7 @@ function CategoryEdit() {
                 editCategoryFormik.touched.branchIds &&
                 editCategoryFormik.errors.branchIds
               }
+              noOptionText="Şube bulunamadı"
             />
 
             <Button

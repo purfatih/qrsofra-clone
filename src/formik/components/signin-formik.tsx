@@ -3,11 +3,13 @@ import { useFormik } from "formik";
 import { LoginApi } from "../../api/login-api";
 import { loginValidationSchema } from "../validation/validationSchema";
 import { useNavigate } from "react-router";
-import { useGlobalContext } from "../../context/Context";
+import { useDataContext } from "../../context/data/data-context";
+import { useStateContext } from "../../context/state/state-context";
 
 export const useLoginFormik = () => {
   const navigate = useNavigate();
-  const { setLoginErrorResponseData, fetchRestaurants } = useGlobalContext();
+  const { fetchRestaurants } = useDataContext();
+  const { setLoginErrorResponseData } = useStateContext();
   const loginFormik = useFormik<LoginTypes>({
     initialValues: {
       email: "",

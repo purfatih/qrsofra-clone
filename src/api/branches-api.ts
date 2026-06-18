@@ -13,7 +13,6 @@ export const newBranchesApi = async (values: BranchTypes) => {
 };
 export const GetBranchesApi = async (restaurantId: string) => {
   const response = await axiosInstance.get(`/branches/${restaurantId}`);
-
   return response.data.data;
 };
 export const DeleteBranchApi = async (id: string) => {

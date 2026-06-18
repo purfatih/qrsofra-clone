@@ -5,7 +5,6 @@ function ProtectedRoute() {
   return token ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
-// PublicRoute.tsx
 function PublicRoute() {
   const token = localStorage.getItem("token");
   return token ? <Navigate to="/dashboard" replace /> : <Outlet />;

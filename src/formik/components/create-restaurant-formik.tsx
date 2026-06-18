@@ -3,11 +3,11 @@ import { restaurantCreateValidationSchema } from "../validation/validationSchema
 import type { RestaurantCreateTypes } from "../../types";
 import { RestaurantCreateApi, UploadLogoApi } from "../../api/restaurant-api";
 import { useNavigate } from "react-router";
-import { useGlobalContext } from "../../context/Context";
+import { useDataContext } from "../../context/data/data-context";
 
 export const useRestaurantCreateFormik = () => {
   const navigate = useNavigate();
-  const { setShowRestaurantData, setRestaurantId } = useGlobalContext();
+  const { setShowRestaurantData, setRestaurantId } = useDataContext();
   const restaurantFormik = useFormik<RestaurantCreateTypes>({
     initialValues: {
       name: "",

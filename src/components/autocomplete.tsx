@@ -8,10 +8,11 @@ type AutocompleteWrapperProps<T> = {
   getOptionLabel: (option: T) => string;
   onBlur?: () => void;
   error?: boolean;
-  helperText?: string | string[];
+  helperText?: React.ReactNode;
   label?: string;
   renderInput?: (params: any) => React.ReactNode;
   sx?: SxProps;
+  noOptionText: string;
 };
 type AutocompleteCompProps<T> = AutocompleteWrapperProps<T> & {};
 function AutocompleteComp<T>(props: AutocompleteCompProps<T>) {
@@ -25,9 +26,12 @@ function AutocompleteComp<T>(props: AutocompleteCompProps<T>) {
     helperText,
     label,
     sx,
+    renderInput,
+    noOptionText,
   } = props;
   return (
     <Autocomplete
+      noOptionsText={noOptionText}
       sx={sx}
       multiple
       disableCloseOnSelect
@@ -46,14 +50,18 @@ function AutocompleteComp<T>(props: AutocompleteCompProps<T>) {
           </li>
         );
       }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          error={error}
-          helperText={helperText}
-          label={label}
-        />
-      )}
+      renderInput={(params) =>
+        renderInput ? (
+          renderInput(params)
+        ) : (
+          <TextField
+            {...params}
+            error={error}
+            helperText={helperText}
+            label={label}
+          />
+        )
+      }
       slotProps={{
         paper: {
           sx: {

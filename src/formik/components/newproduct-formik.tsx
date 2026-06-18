@@ -1,12 +1,12 @@
 import { useFormik } from "formik";
-import { ProductValidationSchewma } from "../validation/validationSchema";
+import { ProductValidationSchema } from "../validation/validationSchema";
 import type { ProductFormTypes, ProductTypes } from "../../types";
 import { useNavigate } from "react-router";
-import { useGlobalContext } from "../../context/Context";
 import { NewProductsApi } from "../../api/products-api";
+import { useDataContext } from "../../context/data/data-context";
 
 export const useNewProductFormik = () => {
-  const { restaurantId, setProducts } = useGlobalContext();
+  const { restaurantId, setProducts } = useDataContext();
   const navigate = useNavigate();
   const newProductFormik = useFormik<ProductFormTypes>({
     enableReinitialize: true,
@@ -33,8 +33,6 @@ export const useNewProductFormik = () => {
         const response = await NewProductsApi(values);
         navigate("/dashboard/products/list");
         setProducts((prev) => [...prev, response.data.data as ProductTypes]);
-        console.log(response);
-        return response;
       } catch (error: unknown) {
         if (error instanceof Error) {
           console.error("Error message:", error.message);
@@ -44,7 +42,7 @@ export const useNewProductFormik = () => {
         throw error;
       }
     },
-    validationSchema: ProductValidationSchewma,
+    validationSchema: ProductValidationSchema,
   });
 
   return newProductFormik;

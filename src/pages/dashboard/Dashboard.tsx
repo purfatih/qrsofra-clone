@@ -1,11 +1,11 @@
 import { Avatar, Box, ButtonBase, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router";
-import { useGlobalContext } from "../../context/Context";
+import { useDataContext } from "../../context/data/data-context";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const { showRestaurantData, setRestaurantId } = useGlobalContext();
+  const { showRestaurantData, setRestaurantId } = useDataContext();
 
   return (
     <>

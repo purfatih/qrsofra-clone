@@ -21,15 +21,16 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { useGlobalContext } from "../../context/Context";
 import { GetCategoriesApi } from "../../api/category-api";
+import { useEventContext } from "../../context/func-event/event-context";
+import { useDataContext } from "../../context/data/data-context";
 export default function CategoryTable() {
   const [open, setOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null,
   );
-  const { categories, restaurantId, setCategories, handleCategoryDelete } =
-    useGlobalContext();
+  const { categories, restaurantId, setCategories } = useDataContext();
+  const { handleCategoryDelete } = useEventContext();
   const navigate = useNavigate();
   const handleClickOpen = (id: string) => {
     setSelectedCategoryId(id);
