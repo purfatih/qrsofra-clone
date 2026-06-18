@@ -65,7 +65,7 @@ function NewProduct() {
   ];
   const [open, setOpen] = useState(false);
   return (
-    <Container sx={{ padding: "40px" }}>
+    <Container sx={{ padding: "90px" }}>
       <Typography
         sx={{
           fontSize: "24px",

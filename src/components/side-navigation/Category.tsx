@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 function Category() {
   const navigate = useNavigate();
   return (
-    <Container sx={{ padding: "40px" }}>
+    <Container sx={{ padding: "90px" }}>
       <Stack
         sx={{
           flexDirection: "row",

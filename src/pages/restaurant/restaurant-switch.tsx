@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useDataContext } from "../../context/data/data-context";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 function RestaurantSwitch() {
   const {
     showRestaurantData,
@@ -39,12 +40,12 @@ function RestaurantSwitch() {
   };
 
   return (
-    <Box>
+    <Stack sx={{ flexDirection: "row" }}>
       <ButtonBase
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: "8px",
+          gap: "4px",
         }}
         aria-controls={anchorEl ? "demo-positioned-menu" : undefined}
         aria-haspopup="true"
@@ -70,7 +71,8 @@ function RestaurantSwitch() {
           }}
         >
           {showRestaurantData?.find((item) => item._id === restaurantId)?.name}
-        </Typography>
+        </Typography>{" "}
+        <KeyboardArrowDownIcon />
       </ButtonBase>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {showRestaurantData?.map((itemRestaurant) => (
@@ -113,9 +115,9 @@ function RestaurantSwitch() {
               </Typography>
             </Stack>
           </MenuItem>
-        ))}
+        ))}{" "}
       </Menu>
-    </Box>
+    </Stack>
   );
 }
 

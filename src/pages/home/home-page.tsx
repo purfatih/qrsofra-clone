@@ -9,11 +9,15 @@ function HomePage() {
       <Box
         sx={{
           display: "inline-block",
+          position: "absolute",
+          top: "10px",
+          left: "300px",
           py: "24px",
           px: "24px",
           width: "fit-content",
           height: "fit-content",
           borderRadius: "12px",
+          zIndex: 999,
         }}
       >
         <RestaurantSwitch />

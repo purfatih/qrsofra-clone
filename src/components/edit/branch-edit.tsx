@@ -30,7 +30,7 @@ function BranchEdit() {
     },
   ];
   return (
-    <Container sx={{ padding: "40px" }}>
+    <Container sx={{ padding: "90px" }}>
       <Stack sx={{ gap: "16px", flexDirection: "column" }}>
         <Typography
           sx={{

@@ -31,7 +31,7 @@ function Product() {
     setOpenExtraProductDialog(true);
   };
   return (
-    <Container sx={{ p: "40px" }}>
+    <Container sx={{ p: "90px" }}>
       <Stack
         sx={{
           flexDirection: "row",
